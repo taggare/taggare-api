@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class UserController {
     @PostMapping("/users")
     public ResponseEntity create(@RequestBody @Valid UserDTO.Create user) {
