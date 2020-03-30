@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Scope("prototype")
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByName(String name);
+public interface AccountRepository extends JpaRepository<Account, Long> {
 }

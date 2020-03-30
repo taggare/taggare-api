@@ -3,6 +3,7 @@ buildscript {
     ext {
         springBootVersion = '2.1.7.RELEASE'
         swaggerVersion = '2.9.2'
+        lombokVersion = '1.18.10'
     }
     repositories {
         // 기본적으로 mavenCentral을 사용하지만, 본인이 만든 라이브러리를 업로드하기 위해 많은 과정과 설정이 필요하다.
@@ -37,6 +38,9 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile (group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}")
     compile (group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}")
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    // compile (group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}")
     testCompile('org.springframework.boot:spring-boot-starter-test')
     // testCompile group: 'junit', name: 'junit', version: '4.12'
 }

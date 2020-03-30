@@ -1,4 +1,4 @@
-package com.sns.server;
+package com.sns.server.index;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,17 +1,30 @@
 package com.sns.server.account;
 
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-public class UserController {
+@RequiredArgsConstructor
+public class AccountController {
+
+    private final AccountService accountService;
+
     @PostMapping("/users")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity create(@RequestBody @Valid UserDTO.Create user) {
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ResponseEntity<?> create(@RequestBody @Valid final AccountDto.Create accountDto) {
+//        ApiClientResponse response = ApiClientResponse.builder()
+//                .data(accountService.createUser(accountDto))
+//                .status(HttpStatus.OK)
+//                .build();
+
+        // return ResponseEntity.status(response.getStatus()).body(response);
+        accountService.createUser(accountDto);
         return ResponseEntity.ok().build();
     }
 
@@ -23,7 +36,7 @@ public class UserController {
 
     @PutMapping("/users/{id}")
     @ApiOperation(value = "회원정보 수정")
-    public ResponseEntity update(@PathVariable Long id) {
+    public ResponseEntity<AccountDto.Update> update(@PathVariable Long id) {
         return ResponseEntity.ok().build();
     }
 
