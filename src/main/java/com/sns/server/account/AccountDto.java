@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -27,11 +25,9 @@ public class AccountDto {
         private String lastName;
 
 
-        @Min(value = 8, message = "비밀번호는 최소 8자리 이상입니다.")
         @NotEmpty
         private String password;
 
-        @Valid
         @Enumerated(EnumType.STRING)
         private Gender gender;
 
