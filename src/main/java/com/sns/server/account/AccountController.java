@@ -1,5 +1,6 @@
 package com.sns.server.account;
 
+import com.sns.server.common.ApiClientResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,14 +19,13 @@ public class AccountController {
     @ApiOperation(value = "회원가입")
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<?> create(@RequestBody @Valid final AccountDto.Create accountDto) {
-//        ApiClientResponse response = ApiClientResponse.builder()
-//                .data(accountService.createUser(accountDto))
-//                .status(HttpStatus.OK)
-//                .build();
+        ApiClientResponse response = ApiClientResponse.builder()
+                .data(accountService.createUser(accountDto))
+                .message("회원가입이 완료되었습니다.")
+                .status(HttpStatus.OK)
+                .build();
 
-        // return ResponseEntity.status(response.getStatus()).body(response);
-        accountService.createUser(accountDto);
-        return ResponseEntity.ok().build();
+         return ResponseEntity.status(response.getStatus()).body(response.getMessage());
     }
 
     @GetMapping("/users/{id}")
