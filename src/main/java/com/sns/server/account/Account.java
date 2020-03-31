@@ -2,6 +2,8 @@ package com.sns.server.account;
 
 import com.sns.server.enums.Gender;
 import lombok.Builder;
+import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -9,9 +11,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "account")
+@Getter
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name = "email", nullable = false, unique = true)
@@ -31,7 +35,7 @@ public class Account {
 
     private String tel;
 
-    @CreatedDate
+    @CreationTimestamp
     @Column(updatable = false)
     private Date created;
 
