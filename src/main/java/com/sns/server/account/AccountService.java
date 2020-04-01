@@ -30,15 +30,9 @@ public class AccountService {
                     .tel(accountDto.getTel())
                     .build();
             return accountRepository.save(account);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new TaggareException(ErrorCode.NOT_FOUND_USER, e.getMessage());
         }
-    }
-
-    @Transactional(readOnly = true)
-    public Optional<Account> isExistAccount(Long id) {
-            return Optional.ofNullable(accountRepository.findById(id)
-                    .orElseThrow(() -> new TaggareException(ErrorCode.NOT_FOUND_USER)));
     }
 
     @Transactional
@@ -61,5 +55,11 @@ public class AccountService {
             account.setDeleted(LocalDateTime.now());
             return accountRepository.save(account);
         }).orElseThrow(() -> new TaggareException(ErrorCode.INTERNAL_SERVER_ERROR));
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Account> isExistAccount(Long id) {
+        return Optional.ofNullable(accountRepository.findById(id)
+                .orElseThrow(() -> new TaggareException(ErrorCode.NOT_FOUND_USER)));
     }
 }

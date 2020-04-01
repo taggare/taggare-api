@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 public class AccountDto {
 
@@ -16,25 +14,26 @@ public class AccountDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Create {
 
+        @NotBlank(message = "이메일을 정확히 입력해주세요.")
         private String email;
 
-        @NotEmpty
+        @NotBlank(message = "영문 이름을 정확히 입력해주세요.")
         private String firstName;
 
-        @NotEmpty
+        @NotBlank(message = "영문 성을 정확히 입력해주세요.")
         private String lastName;
 
 
-        @NotEmpty
+        @NotBlank(message = "패스워드를 정확히 입력해주세요.")
         private String password;
 
         @Enumerated(EnumType.STRING)
         private Gender gender;
 
-        @NotBlank
+        @NotBlank(message = "생일 형식에 맞게 정확히 입력해주세요.")
         private String birth;
 
-        @NotBlank
+        @NotBlank(message = "전화번호 형식에 맞 정확히 입력해주세요.")
         private String tel;
     }
 
@@ -42,31 +41,22 @@ public class AccountDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Update {
 
+        @NotBlank(message = "이메일을 정확히 입력해주세요.")
         private String email;
 
-        @NotEmpty
+        @NotBlank(message = "영문 이름을 정확히 입력해주세요.")
         private String firstName;
 
-        @NotEmpty
+        @NotBlank(message = "영문 성을 정확히 입력해주세요.")
         private String lastName;
 
 
-        @NotEmpty
+        @NotBlank(message = "패스워드를 정확히 입력해주세요.")
         private String password;
 
 
-        @NotBlank
+        @NotBlank(message = "전화번호 형식에 맞 정확히 입력해주세요.")
         private String tel;
     }
 
-//    @Getter
-//    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//    public static class Update {
-//        @NotBlank
-//        @Min(value = 8, message = "비밀번호는 최소 8자리 이상입니다.")
-//        private String password;
-//
-//        @NotBlank
-//        private String tel;
-//    }
 }
