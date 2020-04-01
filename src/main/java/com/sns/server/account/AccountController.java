@@ -3,7 +3,6 @@ package com.sns.server.account;
 import com.sns.server.common.ApiClientResponse;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -14,11 +13,17 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class AccountController {
 
     private final AccountService accountService;
     private final AccountDtoValidator accountDtoValidator;
+
+    public ResponseEntity<?> sendErrorResponse(Errors errors) {
+        return ResponseEntity.badRequest().body(ApiClientResponse.builder()
+                .message(errors.getAllErrors().get(0).getDefaultMessage())
+                .status(HttpStatus.BAD_REQUEST)
+                .build());
+    }
 
     @PostMapping("/users")
     @ApiOperation(value = "회원가입")
@@ -27,10 +32,7 @@ public class AccountController {
                                     Errors errors) {
         accountDtoValidator.validate(result, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(ApiClientResponse.builder()
-                    .message(errors.getAllErrors().get(0).getDefaultMessage())
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build());
+            return sendErrorResponse(errors);
         }
 
         accountService.create(accountDto);
@@ -60,10 +62,7 @@ public class AccountController {
                                     Errors errors) {
         accountDtoValidator.validate(result, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(ApiClientResponse.builder()
-                    .message(errors.getAllErrors().get(0).getDefaultMessage())
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build());
+            return sendErrorResponse(errors);
         }
 
         accountService.update(id, accountDto);
