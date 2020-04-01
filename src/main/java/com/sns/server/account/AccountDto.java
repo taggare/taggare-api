@@ -41,11 +41,32 @@ public class AccountDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Update {
-        @NotBlank
-        @Min(value = 8, message = "비밀번호는 최소 8자리 이상입니다.")
+
+        private String email;
+
+        @NotEmpty
+        private String firstName;
+
+        @NotEmpty
+        private String lastName;
+
+
+        @NotEmpty
         private String password;
+
 
         @NotBlank
         private String tel;
     }
+
+//    @Getter
+//    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+//    public static class Update {
+//        @NotBlank
+//        @Min(value = 8, message = "비밀번호는 최소 8자리 이상입니다.")
+//        private String password;
+//
+//        @NotBlank
+//        private String tel;
+//    }
 }

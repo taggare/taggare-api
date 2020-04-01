@@ -41,13 +41,25 @@ public class AccountController {
     @GetMapping("/users/{id}")
     @ApiOperation(value = "회원정보 요청")
     public ResponseEntity get(@PathVariable Long id) {
-        return ResponseEntity.ok().build();
+        ApiClientResponse response = ApiClientResponse.builder()
+                .data(accountService.isExistAccount(id))
+                .status(HttpStatus.OK)
+                .build();
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @PutMapping("/users/{id}")
     @ApiOperation(value = "회원정보 수정")
-    public ResponseEntity<AccountDto.Update> update(@PathVariable Long id) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> update(@PathVariable Long id,
+                                    @RequestBody @Valid final AccountDto.Update accountDto,
+                                    Errors errors) {
+        accountService.update(id, accountDto);
+        ApiClientResponse response = ApiClientResponse.builder()
+                .message("회원정보 수정이 완료되었습니다.")
+                .status(HttpStatus.OK)
+                .build();
+
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @DeleteMapping("/users/{id}")

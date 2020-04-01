@@ -29,7 +29,6 @@ public class AccountService {
                     .birth(accountDto.getBirth())
                     .tel(accountDto.getTel())
                     .build();
-
             return accountRepository.save(account);
         } catch(Exception e) {
             throw new TaggareException(ErrorCode.NOT_FOUND_USER, e.getMessage());
@@ -38,8 +37,21 @@ public class AccountService {
 
     @Transactional(readOnly = true)
     public Optional<Account> isExistAccount(Long id) {
-            return Optional.ofNullable(accountRepository.findById(id))
-                    .orElseThrow(() -> new TaggareException(ErrorCode.NOT_FOUND_USER));
+            return Optional.ofNullable(accountRepository.findById(id)
+                    .orElseThrow(() -> new TaggareException(ErrorCode.NOT_FOUND_USER)));
+    }
+
+    @Transactional
+    public Account update(Long id, AccountDto.Update accountDto) {
+        Optional<Account> optionalAccount = isExistAccount(id);
+        return optionalAccount.map(account -> {
+            account.setEmail(accountDto.getEmail());
+            account.setFirstName(accountDto.getFirstName());
+            account.setLastName(accountDto.getLastName());
+            account.setPassword(accountDto.getPassword());
+            account.setTel(accountDto.getTel());
+            return accountRepository.save(account);
+        }).orElseThrow(() -> new TaggareException(ErrorCode.INTERNAL_SERVER_ERROR));
     }
 
     @Transactional
