@@ -3,16 +3,22 @@ package com.sns.server.account;
 import com.sns.server.enums.Gender;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.util.Date;
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "account")
 @Getter
+@Setter
+@Where(clause = "deleted IS NULL")
+@NoArgsConstructor
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,24 +33,30 @@ public class Account {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @NotEmpty
     private String password;
 
     private Gender gender;
 
+    @NotEmpty
     private String birth;
 
+    @NotEmpty
     private String tel;
 
     @CreationTimestamp
     @Column(updatable = false)
-    private Date created;
+    private LocalDateTime created;
 
     @LastModifiedDate // @LastModifiedBy
-    @Column(updatable = false)
-    private Date updated;
+    private LocalDateTime updated;
+
+    private LocalDateTime deleted;
 
     @Builder
-    public Account(String email, String firstName, String lastName, String password, Gender gender, String birth, String tel) {
+    public Account(String email, String firstName, String lastName,
+                   String password, Gender gender, String birth,
+                   String tel, LocalDateTime deleted) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,5 +64,6 @@ public class Account {
         this.gender = gender;
         this.birth = birth;
         this.tel = tel;
+        this.deleted = deleted;
     }
 }
