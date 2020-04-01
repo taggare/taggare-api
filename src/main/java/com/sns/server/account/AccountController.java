@@ -1,13 +1,12 @@
 package com.sns.server.account;
 
 import com.sns.server.common.ApiClientResponse;
-import com.sns.server.common.TaggareException;
-import com.sns.server.enums.ErrorCode;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,23 +18,28 @@ import javax.validation.Valid;
 public class AccountController {
 
     private final AccountService accountService;
+    private final AccountDtoValidator accountDtoValidator;
 
     @PostMapping("/users")
     @ApiOperation(value = "회원가입")
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<?> create(@RequestBody @Valid final AccountDto.Create accountDto, Errors errors) {
-        // errors.rejectValue("closeEnrollmentDateTime", "wrong.value", "closeEnrollmentDateTime is wrong");
+    public ResponseEntity<?> create(@RequestBody @Valid final AccountDto.Create accountDto,
+                                    BindingResult result,
+                                    Errors errors) {
+        accountDtoValidator.validate(result, errors);
         if (errors.hasErrors()) {
-            System.out.println("ERROR CHECK");
-            return ResponseEntity.badRequest().body(new TaggareException(ErrorCode.NOT_FOUND_USER, errors.getObjectName()));
+            return ResponseEntity.badRequest().body(ApiClientResponse.builder()
+                    .message(errors.getAllErrors().get(0).getDefaultMessage())
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build());
         }
+
         accountService.create(accountDto);
         ApiClientResponse response = ApiClientResponse.builder()
                 .message("회원가입이 완료되었습니다.")
                 .status(HttpStatus.OK)
                 .build();
 
-         return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @GetMapping("/users/{id}")
@@ -52,7 +56,16 @@ public class AccountController {
     @ApiOperation(value = "회원정보 수정")
     public ResponseEntity<?> update(@PathVariable Long id,
                                     @RequestBody @Valid final AccountDto.Update accountDto,
+                                    BindingResult result,
                                     Errors errors) {
+        accountDtoValidator.validate(result, errors);
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(ApiClientResponse.builder()
+                    .message(errors.getAllErrors().get(0).getDefaultMessage())
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build());
+        }
+
         accountService.update(id, accountDto);
         ApiClientResponse response = ApiClientResponse.builder()
                 .message("회원정보 수정이 완료되었습니다.")
