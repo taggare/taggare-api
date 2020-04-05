@@ -1,9 +1,7 @@
 package com.sns.server.account;
 
 import com.sns.server.enums.Gender;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -35,6 +33,33 @@ public class AccountDto {
 
         @NotBlank(message = "전화번호 형식에 맞 정확히 입력해주세요.")
         private String tel;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class Read {
+        private Long id;
+        private String email;
+        private String firstName;
+        private String lastName;
+        private Gender gender;
+        private String birth;
+        private String tel;
+
+
+        public static Read from(Account account) {
+            return Read.builder()
+                    .id(account.getId())
+                    .email(account.getEmail())
+                    .firstName(account.getFirstName())
+                    .lastName(account.getLastName())
+                    .gender(account.getGender())
+                    .birth(account.getBirth())
+                    .tel(account.getTel())
+                    .build();
+        }
     }
 
     @Getter
