@@ -2,6 +2,8 @@ package com.sns.server.account;
 
 import com.sns.server.common.ApiClientResponse;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,11 +46,13 @@ public class AccountController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+
     @GetMapping("/users/{id}")
     @ApiOperation(value = "회원정보 요청")
+    @ApiResponses(@ApiResponse(code = 400, message = "해당 유저가 없는 경우"))
     public ResponseEntity get(@PathVariable Long id) {
         ApiClientResponse response = ApiClientResponse.builder()
-                .data(accountService.isExistAccount(id))
+                .data(AccountDto.Read.from(accountService.get(id)))
                 .status(HttpStatus.OK)
                 .build();
         return ResponseEntity.status(response.getStatus()).body(response);

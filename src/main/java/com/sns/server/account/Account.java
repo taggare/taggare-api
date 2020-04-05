@@ -1,5 +1,6 @@
 package com.sns.server.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sns.server.enums.Gender;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class Account {
     private String lastName;
 
     @NotEmpty
+    @JsonIgnore
     private String password;
 
     private Gender gender;
