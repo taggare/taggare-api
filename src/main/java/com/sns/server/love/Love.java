@@ -20,8 +20,7 @@ public class Love {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "post_id")
+    @ManyToOne
     private Post post;
 
     @Column(nullable = false)
