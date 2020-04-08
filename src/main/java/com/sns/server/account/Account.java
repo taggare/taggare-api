@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "account")
+@Where(clause = "deleted IS NULL")
 @Getter
 @Setter
-@Where(clause = "deleted IS NULL")
 @NoArgsConstructor
 public class Account {
     @Id
