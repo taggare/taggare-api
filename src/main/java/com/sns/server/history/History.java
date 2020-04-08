@@ -6,8 +6,12 @@ import com.sns.server.post.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,11 +24,16 @@ public class History {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id")
+    @ManyToOne
     private Account account;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "post_id")
-    private Set<Post> post;
+    @OneToMany(mappedBy = "history")
+    private Set<Post> posts = new HashSet<>();
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime created;
+
+    @LastModifiedDate
+    private LocalDateTime updated;
 }

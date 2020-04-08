@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "hashtag")
+@Table(name = "hash_tag")
 @Where(clause = "deleted IS NULL")
 @Getter
 @Setter
@@ -23,8 +23,7 @@ public class HashTag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "post_id")
+    @ManyToOne
     private Post post;
 
     private String tag;

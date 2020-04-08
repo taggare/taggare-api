@@ -2,6 +2,7 @@ package com.sns.server.post;
 
 import com.sns.server.account.Account;
 import com.sns.server.hashtag.HashTag;
+import com.sns.server.history.History;
 import com.sns.server.love.Love;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,16 +27,16 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id")
+    @ManyToOne
     private Account account;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = HashTag.class)
-    @JoinColumn(name = "hashtag_id")
+    @ManyToOne
+    private History history;
+
+    @OneToMany(mappedBy = "post")
     private Set<HashTag> hashTags = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Love.class)
-    @JoinColumn(name = "love_id")
+    @OneToMany(mappedBy = "post")
     private Set<Love> loves = new HashSet<>();
 
     @Column(nullable = false)
