@@ -48,7 +48,10 @@ public class AccountController {
 
     @GetMapping("/users/{id}")
     @ApiOperation(value = "회원정보 요청")
-    @ApiResponses(@io.swagger.annotations.ApiResponse(code = 400, message = "해당 유저가 없는 경우"))
+    @ApiResponses({@io.swagger.annotations.ApiResponse(code = 400, message = "클라이언트에서 잘못된 요청함."),
+            @io.swagger.annotations.ApiResponse(code = 401, message = "비인증된 클라이언트에서 요청함."),
+            @io.swagger.annotations.ApiResponse(code = 403, message = "요청한 클라이언트는 서버에 접근할 권한이 없음."),
+            @io.swagger.annotations.ApiResponse(code = 404, message = "클라이언트에서 요청했으나 찾으려는 사용가 존재하지 않음.")})
     public ResponseEntity get(@PathVariable Long id) {
         ApiResponse response = ApiResponse.builder()
                 .data(AccountDto.Read.from(accountService.get(id)))
@@ -61,8 +64,7 @@ public class AccountController {
     @ApiOperation(value = "회원정보 수정")
     public ResponseEntity<?> update(@PathVariable Long id,
                                     @RequestBody @Valid final AccountDto.Update accountDto,
-                                    BindingResult result,
-                                    Errors errors) {
+                                    @ApiIgnore Errors errors, BindingResult result) {
         accountDtoValidator.validate(result, errors);
         if (errors.hasErrors()) {
             return sendErrorResponse(errors);
