@@ -23,7 +23,6 @@ build/
 *.ipr
 out/
 colors/
-application.yml
 
 ### NetBeans ###
 /nbproject/private/
