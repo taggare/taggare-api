@@ -8,4 +8,9 @@ public class EmailConflictException extends BaseException {
     public HttpStatus getHttpStatus() {
         return HttpStatus.CONFLICT;
     }
+
+    @Override
+    public String getMessage() {
+        return "이미 사용중이거나 탈퇴한 아이디입니다.";
+    }
 }
