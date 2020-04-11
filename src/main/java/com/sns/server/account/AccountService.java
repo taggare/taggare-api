@@ -1,12 +1,14 @@
 package com.sns.server.account;
 
-import com.sns.server.exceptions.AccountNotFoundException;
+import com.sns.server.exceptions.account.AccountNotFoundException;
+import com.sns.server.exceptions.account.EmailConflictException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,18 +19,11 @@ public class AccountService {
 
     @Transactional
     public Account create(AccountDto.Create accountDto) {
-        // TODO: 이메일 중복 체크
-        // TODO: DB 에러가 아닌 response error 감싸라
-        Account account = Account.builder()
-                .email(accountDto.getEmail())
-                .firstName(accountDto.getFirstName())
-                .lastName(accountDto.getLastName())
-                .password(accountDto.getPassword())
-                .gender(accountDto.getGender())
-                .birth(accountDto.getBirth())
-                .tel(accountDto.getTel())
-                .build();
-        return accountRepository.save(account);
+        Optional<Account> account = accountRepository.findByEmail(accountDto.getEmail());
+        if(account.isPresent()) {
+            throw new EmailConflictException();
+        }
+        return accountRepository.save(accountDto.convert());
     }
 
     @Transactional
@@ -54,4 +49,5 @@ public class AccountService {
         return accountRepository.findById(id)
                 .orElseThrow(AccountNotFoundException::new);
     }
+
 }

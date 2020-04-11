@@ -11,9 +11,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
-@Table(name = "hash_tag")
+@Table(name = "hash_tags")
 @Where(clause = "deleted IS NULL")
 @Getter
 @Setter
@@ -23,8 +24,8 @@ public class HashTag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private Post post;
+    @ManyToMany(mappedBy = "hashTags")
+    private Set<Post> post;
 
     private String tag;
 

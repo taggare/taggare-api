@@ -29,13 +29,11 @@ public class AccountController {
 
     @PostMapping("/users")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity<?> create(@RequestBody @Valid final AccountDto.Create accountDto,
-                                    BindingResult result,
-                                    Errors errors) {
-        accountDtoValidator.validate(result, errors);
-        if (errors.hasErrors()) {
-            return sendErrorResponse(errors);
-        }
+    public ResponseEntity<?> create(@RequestBody @Valid final AccountDto.Create accountDto) {
+//        accountDtoValidator.validate(result, errors);
+//        if (errors.hasErrors()) {
+//            return sendErrorResponse(errors);
+//        }
 
         accountService.create(accountDto);
         ApiClientResponse response = ApiClientResponse.builder()
