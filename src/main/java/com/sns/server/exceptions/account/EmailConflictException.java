@@ -11,6 +11,6 @@ public class EmailConflictException extends BaseException {
 
     @Override
     public String getMessage() {
-        return "이미 사용중이거나 탈퇴한 아이디입니다.";
+        return "이미 사용중이거나 탈퇴한 계정입니다.";
     }
 }
