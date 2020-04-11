@@ -1,5 +1,6 @@
-package com.sns.server.exceptions;
+package com.sns.server.exceptions.account;
 
+import com.sns.server.exceptions.BaseException;
 import org.springframework.http.HttpStatus;
 
 public class AccountNotFoundException extends BaseException {

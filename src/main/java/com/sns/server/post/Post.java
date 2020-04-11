@@ -13,7 +13,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -33,11 +32,12 @@ public class Post {
     @ManyToOne
     private History history;
 
-    @OneToMany(mappedBy = "post")
-    private Set<HashTag> hashTags = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "post_hashtags", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
+    private Set<HashTag> hashTags;
 
     @OneToMany(mappedBy = "post")
-    private Set<Love> loves = new HashSet<>();
+    private Set<Love> loves;
 
     @Column(nullable = false)
     private String title;
