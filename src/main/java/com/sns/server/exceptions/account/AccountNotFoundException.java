@@ -8,4 +8,9 @@ public class AccountNotFoundException extends BaseException {
     public HttpStatus getHttpStatus() {
         return HttpStatus.NOT_FOUND;
     }
+
+    @Override
+    public String getMessage() {
+        return "일치하는 사용자 정보가 없습니다.";
+    }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel
-public class ApiClientResponse {
+public class ApiResponse {
 
     @ApiModelProperty(notes = "요청에 대햔 결과 데이터(리스트일 경우)")
     private List<?> list;
