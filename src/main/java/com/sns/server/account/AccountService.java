@@ -19,6 +19,7 @@ public class AccountService {
 
     @Transactional
     public Account create(AccountDto.Create accountDto) {
+        // TODO: 비밀번호 최소 SHA256 암호화
         Optional<Account> account = accountRepository.findByEmail(accountDto.getEmail());
         if(account.isPresent()) {
             throw new EmailConflictException();
@@ -28,13 +29,14 @@ public class AccountService {
 
     @Transactional
     public Account update(Long id, AccountDto.Update accountDto) {
-        return get(id).builder()
-                .email(accountDto.getEmail())
-                .firstName(accountDto.getFirstName())
-                .lastName(accountDto.getLastName())
-                .password(accountDto.getPassword())
-                .tel(accountDto.getTel())
-                .build();
+        // TODO: 비밀번호 변경을 분리
+        // TODO: 회원정보 변경 분리(firstName, lastName, tel)
+        get(id).setFirstName(accountDto.getFirstName());
+        get(id).setLastName(accountDto.getLastName());
+        get(id).setPassword(accountDto.getPassword());
+        get(id).setTel(accountDto.getTel());
+
+        return  get(id);
     }
 
     @Transactional
