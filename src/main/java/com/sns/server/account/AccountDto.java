@@ -10,8 +10,9 @@ import javax.validation.constraints.NotBlank;
 public class AccountDto {
 
     @Getter
-    // @Builder
+    @Builder
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Create {
 
         @Email(message = "이메일 형식에 맞게 정확히 입력해주세요.")
@@ -77,7 +78,9 @@ public class AccountDto {
     }
 
     @Getter
+    @Builder
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
     public static class Update {
 
         @NotBlank(message = "이메일을 정확히 입력해주세요.")
