@@ -40,8 +40,7 @@ dependencies {
     compile (group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}")
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    // compile (group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}")
+    compile('com.h2database:h2')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    // testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
