@@ -39,7 +39,6 @@ public class AccountTest {
 
     @Test
     public void 사용자_계정_조회() {
-        accountService.get(1L);
         assertThat(accountService.get(1L).getEmail().equals("test@github.com"));
     }
 
