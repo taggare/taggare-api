@@ -3,6 +3,7 @@ package com.sns.server.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -18,26 +19,24 @@ import java.util.ArrayList;
 public class SwaggerConfig {
     @Bean
     public Docket api() {
-        String version = "v1";
-        String title = "Taggare API " + version;
-        String license = "Taggare License";
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.ant("/**"))
                 .build()
-                .apiInfo(apiInfo(title, version, license));
+                .apiInfo(apiInfo());
     }
 
-    private ApiInfo apiInfo(String title, String version, String license) {
-        return new ApiInfo(
-                title,
-                "API server for Taggare",
-                version,
-                "www.example.com",
-                new Contact("Contact Me", "www.example.com", "foo@example.com"),
-                license,
-                "www.example.com",
-                new ArrayList<>());
+    private ApiInfo apiInfo() {
+        String version = "v1.0";
+        String title = "Taggare API " + version;
+        String license = "Taggare License";
+        return new ApiInfoBuilder()
+                .title(title)
+                .version(version)
+                .contact(new Contact("Contact Me", "https://github.com/seongjin605", "qkrtjdwls605@naver.com"))
+                .license(license)
+                .licenseUrl("https://github.com/taggare")
+                .build();
     }
 }
