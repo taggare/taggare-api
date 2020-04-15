@@ -1,10 +1,7 @@
-package com.sns.server.post;
+package com.sns.server.reply;
 
 import com.sns.server.account.Account;
-import com.sns.server.hashtag.HashTag;
-import com.sns.server.history.History;
-import com.sns.server.love.Love;
-import com.sns.server.reply.Reply;
+import com.sns.server.post.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,15 +11,17 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
+import org.hibernate.annotations.Where;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name = "post")
+@Table(name = "reply")
 @Where(clause = "deleted IS NULL")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Post {
+public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -30,23 +29,8 @@ public class Post {
     @ManyToOne
     private Account account;
 
-    @OneToMany(mappedBy = "post")
-    private Set<Reply> reply;
-
     @ManyToOne
-    private History history;
-
-    @ManyToMany
-    @JoinTable(name = "post_hashtags",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
-    private Set<HashTag> hashTags;
-
-    @OneToMany(mappedBy = "post")
-    private Set<Love> loves;
-
-    @Column(nullable = false)
-    private String title;
+    private Post post;
 
     @Column(columnDefinition = "TEXT")
     private String content;
