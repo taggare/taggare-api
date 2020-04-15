@@ -9,4 +9,4 @@
 -   [x] 회원가입시 Email 중복체크 및 예외처리
 -   [ ] JWT token 생성
 -   [ ] Spring Security
--   [ ] Comment domain 생성
+-   [x] Reply domain 생성
