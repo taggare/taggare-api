@@ -11,6 +11,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.Where;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "reply")
