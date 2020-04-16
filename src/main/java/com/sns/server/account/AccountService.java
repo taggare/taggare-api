@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +19,8 @@ public class AccountService {
     @Transactional
     public Account create(AccountDto.Create accountDto) {
         // TODO: 비밀번호 최소 SHA256 암호화
-        Optional<Account> account = accountRepository.findByEmail(accountDto.getEmail());
-        if(account.isPresent()) {
+        Account account = accountRepository.findByEmail(accountDto.getEmail());
+        if (account == null) {
             throw new EmailConflictException();
         }
         return accountRepository.save(accountDto.convert());
@@ -36,7 +35,7 @@ public class AccountService {
         get(id).setPassword(accountDto.getPassword());
         get(id).setTel(accountDto.getTel());
 
-        return  get(id);
+        return get(id);
     }
 
     @Transactional
