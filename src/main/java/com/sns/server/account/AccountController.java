@@ -27,6 +27,7 @@ public class AccountController {
                 .build());
     }
 
+    @CrossOrigin
     @PostMapping("/users")
     @ApiOperation(value = "회원가입")
     public ResponseEntity<?> create(@RequestBody @Valid final AccountDto.Create accountDto,
@@ -45,7 +46,7 @@ public class AccountController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-
+    @CrossOrigin
     @GetMapping("/users/{id}")
     @ApiOperation(value = "회원정보 요청")
     @ApiResponses({@io.swagger.annotations.ApiResponse(code = 400, message = "클라이언트에서 잘못된 요청함."),
@@ -60,6 +61,7 @@ public class AccountController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    @CrossOrigin
     @PutMapping("/users/{id}")
     @ApiOperation(value = "회원정보 수정")
     public ResponseEntity<?> update(@PathVariable Long id,
@@ -79,6 +81,7 @@ public class AccountController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    @CrossOrigin
     @DeleteMapping("/users/{id}")
     @ApiOperation(value = "회원탈퇴")
     public ResponseEntity delete(@PathVariable Long id) {
