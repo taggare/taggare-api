@@ -18,9 +18,8 @@ public class AccountService {
 
     @Transactional
     public Account create(AccountDto.Create accountDto) {
-        // TODO: 비밀번호 최소 SHA256 암호화
         Account account = accountRepository.findByEmail(accountDto.getEmail());
-        if (account == null) {
+        if (account != null) {
             throw new EmailConflictException();
         }
         return accountRepository.save(accountDto.convert());
