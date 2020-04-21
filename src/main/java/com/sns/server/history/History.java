@@ -3,9 +3,6 @@ package com.sns.server.history;
 
 import com.sns.server.account.Account;
 import com.sns.server.post.Post;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -14,11 +11,11 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "history")
-@Getter
-@Setter
-@NoArgsConstructor
+//@Entity
+//@Table(name = "history")
+//@Getter
+//@Setter
+//@NoArgsConstructor
 public class History {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

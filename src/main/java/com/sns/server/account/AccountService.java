@@ -4,11 +4,11 @@ import com.sns.server.exceptions.account.AccountNotFoundException;
 import com.sns.server.exceptions.account.EmailConflictException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,15 +16,24 @@ import java.util.Optional;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Account create(AccountDto.Create accountDto) {
-        // TODO: 비밀번호 최소 SHA256 암호화
-        Optional<Account> account = accountRepository.findByEmail(accountDto.getEmail());
-        if(account.isPresent()) {
+        Account account = accountRepository.findByEmail(accountDto.getEmail());
+        if (account != null) {
             throw new EmailConflictException();
         }
-        return accountRepository.save(accountDto.convert());
+        return accountRepository.save(AccountDto.Create.builder()
+                .email(accountDto.getEmail())
+                .firstName(accountDto.getFirstName())
+                .lastName(accountDto.getLastName())
+                .password(passwordEncoder.encode(accountDto.getPassword()))
+                .gender(accountDto.getGender())
+                .birth(accountDto.getBirth())
+                .tel(accountDto.getTel())
+                .build()
+                .convert());
     }
 
     @Transactional
@@ -33,10 +42,10 @@ public class AccountService {
         // TODO: 회원정보 변경 분리(firstName, lastName, tel)
         get(id).setFirstName(accountDto.getFirstName());
         get(id).setLastName(accountDto.getLastName());
-        get(id).setPassword(accountDto.getPassword());
+        get(id).setPassword(passwordEncoder.encode(accountDto.getPassword()));
         get(id).setTel(accountDto.getTel());
 
-        return  get(id);
+        return get(id);
     }
 
     @Transactional

@@ -2,7 +2,6 @@ package com.sns.server.post;
 
 import com.sns.server.account.Account;
 import com.sns.server.hashtag.HashTag;
-import com.sns.server.history.History;
 import com.sns.server.love.Love;
 import com.sns.server.reply.Reply;
 import lombok.Getter;
@@ -33,8 +32,8 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private Set<Reply> reply;
 
-    @ManyToOne
-    private History history;
+//    @ManyToOne
+//    private History history;
 
     @ManyToMany
     @JoinTable(name = "post_hashtags",
