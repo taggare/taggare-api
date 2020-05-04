@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class CustomUserDetails implements UserDetailsService {
+public class AccountContextService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
 
@@ -20,6 +20,10 @@ public class CustomUserDetails implements UserDetailsService {
         if(account == null) {
             throw new UsernameNotFoundException("존재하지 않는 사용자입니다.");
         }
-        return new SecurityUser(account);
+        return getAccountContext(account);
+    }
+
+    private AccountContext getAccountContext(Account account) {
+        return AccountContext.fromAccountModel(account);
     }
 }
