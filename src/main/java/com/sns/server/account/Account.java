@@ -2,6 +2,7 @@ package com.sns.server.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sns.server.enums.Gender;
+import com.sns.server.enums.UserRole;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,11 +47,18 @@ public class Account {
     @NotEmpty
     private String tel;
 
+    @Enumerated(value = EnumType.STRING)
+    private UserRole userRole;
+
+    private Long socialId;
+
+    private Long profileHref;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime created;
 
-    @LastModifiedDate // @LastModifiedBy
+    @LastModifiedDate
     private LocalDateTime updated;
 
     private LocalDateTime deleted;
