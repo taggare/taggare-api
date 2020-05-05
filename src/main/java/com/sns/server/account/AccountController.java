@@ -103,7 +103,7 @@ public class AccountController {
 
     @CrossOrigin
     @GetMapping("/users/hello")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity getHello(Authentication authentication) {
         PostAuthorizationToken authorizationToken = (PostAuthorizationToken) authentication;
         ApiResponse response = ApiResponse.builder()
