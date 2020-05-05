@@ -1,11 +1,16 @@
 package com.sns.server.security.tokens;
 
+import com.sns.server.security.dtos.FormLoginDto;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public class PreAuthorizationToken extends UsernamePasswordAuthenticationToken {
 
     public PreAuthorizationToken(String username, String password) {
         super(username, password);
+    }
+
+    public PreAuthorizationToken(FormLoginDto formLoginDto) {
+        this(formLoginDto.getEmail(), formLoginDto.getPassword());
     }
 
     public String getUsername() {

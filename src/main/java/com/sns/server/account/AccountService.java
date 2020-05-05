@@ -1,5 +1,6 @@
 package com.sns.server.account;
 
+import com.sns.server.enums.UserRole;
 import com.sns.server.exceptions.account.AccountNotFoundException;
 import com.sns.server.exceptions.account.EmailConflictException;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class AccountService {
                 .gender(accountDto.getGender())
                 .birth(accountDto.getBirth())
                 .tel(accountDto.getTel())
+                .userRole(UserRole.USER)
                 .build()
                 .convert());
     }
