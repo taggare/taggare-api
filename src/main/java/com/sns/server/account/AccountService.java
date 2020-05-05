@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 @Slf4j
 public class AccountService {
 
+    // private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
+
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
 
