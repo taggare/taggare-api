@@ -2,10 +2,8 @@ package com.sns.server.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sns.server.enums.Gender;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.sns.server.enums.UserRole;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -46,19 +44,30 @@ public class Account {
     @NotEmpty
     private String tel;
 
+    @Column(name = "user_role", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRole userRole;
+
+    @Column(name = "social_id")
+    private Long socialId;
+
+    @Column(name = "profile_href")
+    private Long profileHref;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime created;
 
-    @LastModifiedDate // @LastModifiedBy
+    @LastModifiedDate
     private LocalDateTime updated;
 
     private LocalDateTime deleted;
 
     @Builder
     public Account(String email, String firstName, String lastName,
-                   String password, Gender gender, String birth,
-                   String tel, LocalDateTime deleted) {
+                   String password, Gender gender, String birth, String tel,
+                   UserRole userRole, Long socialId, Long profileHref,
+                   LocalDateTime deleted) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -66,6 +75,9 @@ public class Account {
         this.gender = gender;
         this.birth = birth;
         this.tel = tel;
+        this.userRole = userRole;
+        this.socialId = socialId;
+        this.profileHref = profileHref;
         this.deleted = deleted;
     }
 }

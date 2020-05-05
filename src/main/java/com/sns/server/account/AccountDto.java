@@ -1,6 +1,7 @@
 package com.sns.server.account;
 
 import com.sns.server.enums.Gender;
+import com.sns.server.enums.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +25,6 @@ public class AccountDto {
         @NotBlank(message = "영문 성을 정확히 입력해주세요.")
         private String lastName;
 
-
         @NotBlank(message = "패스워드를 정확히 입력해주세요.")
         private String password;
 
@@ -37,6 +37,9 @@ public class AccountDto {
         @NotBlank(message = "전화번호 형식에 맞 정확히 입력해주세요.")
         private String tel;
 
+        @Enumerated(value = EnumType.STRING)
+        private UserRole userRole;
+
         public Account convert() {
             return Account.builder()
                     .email(this.email)
@@ -46,6 +49,7 @@ public class AccountDto {
                     .gender(this.gender)
                     .birth(this.birth)
                     .tel(this.tel)
+                    .userRole(this.userRole)
                     .build();
         }
     }
