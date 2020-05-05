@@ -50,9 +50,8 @@ public class AccountService {
 
     @Transactional
     public Account delete(Long id) {
-        return get(id).builder()
-                .deleted(LocalDateTime.now())
-                .build();
+        get(id).setDeleted(LocalDateTime.now());
+        return get(id);
     }
 
     @Transactional(readOnly = true)

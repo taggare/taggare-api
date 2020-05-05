@@ -1,8 +1,11 @@
 package com.sns.server.security;
 
 import com.sns.server.security.filters.FormLoginFilter;
+import com.sns.server.security.filters.JwtAuthenticationFilter;
 import com.sns.server.security.handlers.FormLoginAuthenticationSuccessHandler;
+import com.sns.server.security.handlers.JwtAuthenticationFailureHandler;
 import com.sns.server.security.providers.FormLoginAuthenticationProvider;
+import com.sns.server.security.providers.JwtAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Bean;
@@ -19,15 +22,19 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AccountContextService accountContextService;
     private final FormLoginAuthenticationSuccessHandler formLoginAuthenticationSuccessHandler;
     private final FormLoginAuthenticationProvider formLoginAuthenticationProvider;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
+    private final HeaderTokenExtractor headerTokenExtractor;
 
     @Bean
     @Override
@@ -43,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().disable()
                 .and()
-                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -58,7 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // auth.userDetailsService(accountContextService).passwordEncoder(passwordEncoder());
-        auth.authenticationProvider(this.formLoginAuthenticationProvider);
+        auth
+                .authenticationProvider(this.formLoginAuthenticationProvider)
+                .authenticationProvider(this.jwtAuthenticationProvider);
     }
 
     @Bean
@@ -80,5 +90,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         FormLoginFilter formLoginFilter = new FormLoginFilter("/formLogin", formLoginAuthenticationSuccessHandler, null);
         formLoginFilter.setAuthenticationManager(super.authenticationManagerBean());
         return formLoginFilter;
+    }
+
+    protected JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        FilterSkipMatcher filterSkipMatcher = new FilterSkipMatcher(Arrays.asList("/formLogin"), "/users/hello");
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(filterSkipMatcher, jwtAuthenticationFailureHandler, headerTokenExtractor);
+        filter.setAuthenticationManager(super.authenticationManagerBean());
+        return filter;
     }
 }

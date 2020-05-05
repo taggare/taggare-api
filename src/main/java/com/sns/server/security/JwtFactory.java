@@ -18,6 +18,7 @@ public class JwtFactory {
         try {
             token = JWT.create()
                     .withIssuer("preciouStar")
+                    .withClaim("USER_EMAIL", context.getAccount().getEmail())
                     .withClaim("USER_ROLE", context.getAccount().getUserRole().getRoleName())
                     .sign(generateAlgorithm());
         } catch (Exception e) {
