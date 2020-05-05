@@ -8,4 +8,12 @@
 -   [x] Heroku 서버 생성
 -   [x] 회원가입시 Email 중복체크 및 예외처리
 -   [ ] Spring Security 코어 파악
--   [x] Reply domain 생성
+-   [x] Reply domain 생성  
+
+
+### JWT token request verification
+* Post.http -> Login.http -> loggedin-request.http  
+
+
+### JWT 토큰 테스트
+회원 가입 -> 로그인 요청 -> 토큰 생성 및 클라이언트에 전달 -> 헤더에 토큰이 있는지 검증답 성 -> JWT Claim Set 유저 아이디 응답(유저 이메일)
