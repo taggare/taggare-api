@@ -1,6 +1,7 @@
 package com.sns.server.account;
 
 import com.sns.server.common.ApiResponse;
+import com.sns.server.security.tokens.PostAuthorizationToken;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -109,4 +112,16 @@ public class AccountController {
 //                .build();
 //        return ResponseEntity.status(response.getStatus()).body(response);
 //    }
+  
+    @CrossOrigin
+    @GetMapping("/users/hello")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity getHello(Authentication authentication) {
+        PostAuthorizationToken authorizationToken = (PostAuthorizationToken) authentication;
+        ApiResponse response = ApiResponse.builder()
+                .data(authorizationToken.getAccountContext().getUsername())
+                .status(HttpStatus.OK)
+                .build();
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 }

@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(socialLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -105,6 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
         FilterSkipMatcher filterSkipMatcher = new FilterSkipMatcher(Arrays.asList("/login", "/social"), "/users/hello");
+        FilterSkipMatcher filterSkipMatcher = new FilterSkipMatcher(Arrays.asList("/formLogin"), "/users/hello");
         JwtAuthenticationFilter filter = new JwtAuthenticationFilter(filterSkipMatcher, jwtAuthenticationFailureHandler, headerTokenExtractor);
         filter.setAuthenticationManager(super.authenticationManagerBean());
         return filter;
