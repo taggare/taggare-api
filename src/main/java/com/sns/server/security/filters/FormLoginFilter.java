@@ -1,7 +1,7 @@
 package com.sns.server.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sns.server.security.dtos.FormLoginDto;
+import com.sns.server.login.FormLoginDto;
 import com.sns.server.security.tokens.PreAuthorizationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

@@ -1,13 +1,15 @@
 package com.sns.server.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sns.server.security.filters.FormLoginFilter;
 import com.sns.server.security.filters.JwtAuthenticationFilter;
+import com.sns.server.security.filters.SocialLoginFilter;
 import com.sns.server.security.handlers.FormLoginAuthenticationSuccessHandler;
 import com.sns.server.security.handlers.JwtAuthenticationFailureHandler;
 import com.sns.server.security.providers.FormLoginAuthenticationProvider;
 import com.sns.server.security.providers.JwtAuthenticationProvider;
+import com.sns.server.security.providers.SocialLoginAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final FormLoginAuthenticationSuccessHandler formLoginAuthenticationSuccessHandler;
     private final FormLoginAuthenticationProvider formLoginAuthenticationProvider;
+    private final SocialLoginAuthenticationProvider socialLoginAuthenticationProvider;
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
     private final JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
     private final HeaderTokenExtractor headerTokenExtractor;
@@ -44,13 +47,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http
+                .cors()
+                .and()
+                .csrf().disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .headers().frameOptions().disable()
                 .and()
+                .authorizeRequests()
+                .anyRequest().permitAll()
+                .and()
                 .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(socialLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -68,6 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // auth.userDetailsService(accountContextService).passwordEncoder(passwordEncoder());
         auth
                 .authenticationProvider(this.formLoginAuthenticationProvider)
+                .authenticationProvider(this.socialLoginAuthenticationProvider)
                 .authenticationProvider(this.jwtAuthenticationProvider);
     }
 
@@ -87,15 +98,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected FormLoginFilter formLoginFilter() throws Exception {
-        FormLoginFilter formLoginFilter = new FormLoginFilter("/formLogin", formLoginAuthenticationSuccessHandler, null);
+        FormLoginFilter formLoginFilter = new FormLoginFilter("/login", formLoginAuthenticationSuccessHandler, null);
         formLoginFilter.setAuthenticationManager(super.authenticationManagerBean());
         return formLoginFilter;
     }
 
     protected JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        FilterSkipMatcher filterSkipMatcher = new FilterSkipMatcher(Arrays.asList("/formLogin"), "/users/hello");
+        FilterSkipMatcher filterSkipMatcher = new FilterSkipMatcher(Arrays.asList("/login", "/social"), "/users/hello");
         JwtAuthenticationFilter filter = new JwtAuthenticationFilter(filterSkipMatcher, jwtAuthenticationFailureHandler, headerTokenExtractor);
         filter.setAuthenticationManager(super.authenticationManagerBean());
         return filter;
+    }
+
+    protected SocialLoginFilter socialLoginFilter() throws Exception {
+        SocialLoginFilter socialLoginFilter = new SocialLoginFilter("/social", formLoginAuthenticationSuccessHandler);
+        socialLoginFilter.setAuthenticationManager(super.authenticationManagerBean());
+
+        return socialLoginFilter;
     }
 }
