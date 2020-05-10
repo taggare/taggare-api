@@ -18,7 +18,7 @@ public class JwtAuthenticationFailureHandler implements AuthenticationFailureHan
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException exception) throws IOException, ServletException {
-        // TODO: 어디서 인증이 실패가 발생했는지 의미있는 정보를 정형화된 DTO를 response 구
+        // TODO: 어디서 인증이 실패가 발생했는지 의미있는 정보를 정형화된 DTO를 response 구현
         log.error(exception.getMessage());
     }
 

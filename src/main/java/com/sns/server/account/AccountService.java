@@ -32,6 +32,10 @@ public class AccountService {
                 .gender(accountDto.getGender())
                 .birth(accountDto.getBirth())
                 .tel(accountDto.getTel())
+                .userRole(UserRole.USER)
+                .socialProvider(null)
+                .socialId(null)
+                .profileHref(null)
                 .build()
                 .convert());
     }

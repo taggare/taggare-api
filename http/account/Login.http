@@ -1,6 +1,6 @@
 POST http://localhost:8080/formLogin
 Content-Type: application/json
 
-{"email":"seongjin1@naver.com", "password": "test1234!@#"}
+{"email":"test1@naver.com", "password": "test1234!@#"}
 
 ###

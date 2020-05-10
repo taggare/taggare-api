@@ -36,6 +36,7 @@ public class Account {
     @JsonIgnore
     private String password;
 
+    @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
     @NotEmpty
@@ -48,11 +49,15 @@ public class Account {
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
+    @Column(name = "social_provider")
+    @Enumerated(value = EnumType.STRING)
+    private SocialProviders socialProvider;
+
     @Column(name = "social_id")
     private Long socialId;
 
     @Column(name = "profile_href")
-    private Long profileHref;
+    private String profileHref;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -66,7 +71,7 @@ public class Account {
     @Builder
     public Account(String email, String firstName, String lastName,
                    String password, Gender gender, String birth, String tel,
-                   UserRole userRole, Long socialId, Long profileHref,
+                   UserRole userRole, SocialProviders socialProvider, Long socialId, String profileHref,
                    LocalDateTime deleted) {
         this.email = email;
         this.firstName = firstName;
@@ -76,6 +81,7 @@ public class Account {
         this.birth = birth;
         this.tel = tel;
         this.userRole = userRole;
+        this.socialProvider = socialProvider;
         this.socialId = socialId;
         this.profileHref = profileHref;
         this.deleted = deleted;

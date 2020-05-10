@@ -1,16 +1,19 @@
-package com.sns.server.security.dtos;
+package com.sns.server.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenDto {
+public class SocialLoginDto {
+
+    @JsonProperty("provider")
+    private SocialProviders provider;
+
     @JsonProperty("token")
     private String token;
+
 }

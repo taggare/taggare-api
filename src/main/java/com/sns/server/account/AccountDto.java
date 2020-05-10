@@ -1,10 +1,12 @@
 package com.sns.server.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.sns.server.enums.Gender;
 import com.sns.server.enums.UserRole;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -40,6 +42,14 @@ public class AccountDto {
         @Enumerated(value = EnumType.STRING)
         private UserRole userRole;
 
+        @Enumerated(value = EnumType.STRING)
+        private SocialProviders socialProvider;
+
+        private Long socialId;
+
+        private String profileHref;
+
+        @JsonCreator
         public Account convert() {
             return Account.builder()
                     .email(this.email)
@@ -50,6 +60,9 @@ public class AccountDto {
                     .birth(this.birth)
                     .tel(this.tel)
                     .userRole(this.userRole)
+                    .socialProvider(this.socialProvider)
+                    .socialId(this.socialId)
+                    .profileHref(this.profileHref)
                     .build();
         }
     }

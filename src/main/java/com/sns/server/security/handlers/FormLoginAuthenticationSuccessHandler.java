@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sns.server.security.AccountContext;
 import com.sns.server.security.JwtFactory;
-import com.sns.server.security.tokens.PostAuthorizationToken;
 import com.sns.server.security.dtos.TokenDto;
-import lombok.RequiredArgsConstructor;
+import com.sns.server.security.tokens.PostAuthorizationToken;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -19,11 +19,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class FormLoginAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final JwtFactory jwtFactory;
-    private final ObjectMapper objectMapper;
+    private JwtFactory jwtFactory;
+    private ObjectMapper objectMapper;
+
+    FormLoginAuthenticationSuccessHandler(@Lazy JwtFactory jwtFactory, @Lazy ObjectMapper objectMapper) {
+        this.jwtFactory = jwtFactory;
+        this.objectMapper = objectMapper;
+    }
 
     /**
      * {@link com.sns.server.security.tokens.PostAuthorizationToken}이 provider에서 넘어오는 인증 토큰 값을

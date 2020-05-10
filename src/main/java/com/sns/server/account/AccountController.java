@@ -101,6 +101,18 @@ public class AccountController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+//    @CrossOrigin
+//    @GetMapping("/users/hello")
+//    @PreAuthorize("hasRole('ROLE_USER')")
+//    public ResponseEntity getHello(Authentication authentication) {
+//        PostAuthorizationToken authorizationToken = (PostAuthorizationToken) authentication;
+//        ApiResponse response = ApiResponse.builder()
+//                .data(authorizationToken.getAccountContext().getUsername())
+//                .status(HttpStatus.OK)
+//                .build();
+//        return ResponseEntity.status(response.getStatus()).body(response);
+//    }
+  
     @CrossOrigin
     @GetMapping("/users/hello")
     @PreAuthorize("hasRole('USER')")

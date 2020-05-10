@@ -1,3 +1,3 @@
 GET http://localhost:8080/users/hello
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVU0VSX0VNQUlMIjoic2VvbmdqaW4xQG5hdmVyLmNvbSIsImlzcyI6InByZWNpb3VTdGFyIiwiVVNFUl9ST0xFIjoiUk9MRV9VU0VSIn0.9zhrqAq9ih1dcTX_Rv02jUlNQ_YXFCli05eVrdzX17Y
+Authorization: Bearer {token}
 ###
