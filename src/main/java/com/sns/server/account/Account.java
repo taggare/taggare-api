@@ -3,7 +3,11 @@ package com.sns.server.account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sns.server.enums.Gender;
 import com.sns.server.enums.UserRole;
-import lombok.*;
+import com.sns.server.token.Token;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,6 +15,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "account")
@@ -58,6 +63,9 @@ public class Account {
 
     @Column(name = "profile_href")
     private String profileHref;
+
+    @OneToMany(mappedBy = "account")
+    private Set<Token> token;
 
     @CreationTimestamp
     @Column(updatable = false)
