@@ -1,6 +1,12 @@
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
+
+
+jwt:
+  signKey: ${JWT_SIGN_KEY}
+  issuer: taggre
+
 ---
 spring:
   profiles: local

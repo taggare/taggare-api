@@ -4,7 +4,7 @@ buildscript {
         springBootVersion = '2.1.7.RELEASE'
         swaggerVersion = '2.9.2'
         lombokVersion = '1.18.10'
-        jwtVersion = '3.3.0'
+        jwtVersion = '3.8.3'
     }
     repositories {
         // 기본적으로 mavenCentral을 사용하지만, 본인이 만든 라이브러리를 업로드하기 위해 많은 과정과 설정이 필요하다.
