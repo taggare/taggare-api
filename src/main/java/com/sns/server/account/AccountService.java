@@ -1,5 +1,6 @@
 package com.sns.server.account;
 
+import com.sns.server.enums.UserRole;
 import com.sns.server.exceptions.account.AccountNotFoundException;
 import com.sns.server.exceptions.account.EmailConflictException;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,14 @@ import java.time.LocalDateTime;
 @Slf4j
 public class AccountService {
 
+    // private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
+
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Account create(AccountDto.Create accountDto) {
-        Account account = accountRepository.findByEmail(accountDto.getEmail());
+        Account account = findByEmail(accountDto.getEmail());
         if (account != null) {
             throw new EmailConflictException();
         }
@@ -32,6 +35,10 @@ public class AccountService {
                 .gender(accountDto.getGender())
                 .birth(accountDto.getBirth())
                 .tel(accountDto.getTel())
+                .userRole(UserRole.USER)
+                .socialProvider(null)
+                .socialId(null)
+                .profileHref(null)
                 .build()
                 .convert());
     }
@@ -50,15 +57,19 @@ public class AccountService {
 
     @Transactional
     public Account delete(Long id) {
-        return get(id).builder()
-                .deleted(LocalDateTime.now())
-                .build();
+        get(id).setDeleted(LocalDateTime.now());
+        return get(id);
     }
 
     @Transactional(readOnly = true)
     public Account get(Long id) {
         return accountRepository.findById(id)
                 .orElseThrow(AccountNotFoundException::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Account findByEmail(String email) {
+        return accountRepository.findByEmail(email);
     }
 
 }

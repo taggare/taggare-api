@@ -1,9 +1,12 @@
 package com.sns.server.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.sns.server.enums.Gender;
+import com.sns.server.enums.UserRole;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -24,7 +27,6 @@ public class AccountDto {
         @NotBlank(message = "영문 성을 정확히 입력해주세요.")
         private String lastName;
 
-
         @NotBlank(message = "패스워드를 정확히 입력해주세요.")
         private String password;
 
@@ -37,6 +39,17 @@ public class AccountDto {
         @NotBlank(message = "전화번호 형식에 맞 정확히 입력해주세요.")
         private String tel;
 
+        @Enumerated(value = EnumType.STRING)
+        private UserRole userRole;
+
+        @Enumerated(value = EnumType.STRING)
+        private SocialProviders socialProvider;
+
+        private Long socialId;
+
+        private String profileHref;
+
+        @JsonCreator
         public Account convert() {
             return Account.builder()
                     .email(this.email)
@@ -46,6 +59,10 @@ public class AccountDto {
                     .gender(this.gender)
                     .birth(this.birth)
                     .tel(this.tel)
+                    .userRole(this.userRole)
+                    .socialProvider(this.socialProvider)
+                    .socialId(this.socialId)
+                    .profileHref(this.profileHref)
                     .build();
         }
     }

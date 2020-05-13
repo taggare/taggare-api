@@ -7,5 +7,9 @@
 -   [x] HashTag, History, Like, Post 관계 설정
 -   [x] Heroku 서버 생성
 -   [x] 회원가입시 Email 중복체크 및 예외처리
--   [ ] Spring Security 코어 파악
--   [x] Reply domain 생성
+-   [x] Spring Security 코어 파악
+-   [x] Reply domain 생성  
+
+
+### JWT token request verification
+* Post.http -> Login.http -> loggedin-request.http  
