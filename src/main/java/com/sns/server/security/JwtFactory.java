@@ -27,30 +27,12 @@ public class JwtFactory {
     private String issuer;
 
     public String generateAccessToken(AccountContext context) {
-        return JWT.create()
-                .withIssuer(issuer)
-                .withClaim("USER_EMAIL", context.getAccount().getEmail())
-                .withClaim("USER_ROLE", context.getAccount().getUserRole().getRoleName())
-                .withExpiresAt(new Date(JWT_ACCESS_TOKEN_VALIDITY))
-                .sign(generateAlgorithm());
+        return generateToken(context, JWT_ACCESS_TOKEN_VALIDITY);
     }
 
     public String generateRefreshToken(AccountContext context) {
-        return JWT.create()
-                .withIssuer(issuer)
-                .withClaim("USER_EMAIL", context.getAccount().getEmail())
-                .withClaim("USER_ROLE", context.getAccount().getUserRole().getRoleName())
-                .withExpiresAt(new Date(JWT_REFRESH_TOKEN_VALIDITY))
-                .sign(generateAlgorithm());
+        return generateToken(context, JWT_REFRESH_TOKEN_VALIDITY);
     }
-
-//    public String generateAccessToken(AccountContext context) {
-//        return generateToken(context, JWT_ACCESS_TOKEN_VALIDITY);
-//    }
-//
-//    public String generateRefreshToken(AccountContext context) {
-//        return generateToken(context, JWT_REFRESH_TOKEN_VALIDITY);
-//    }
 
     private String generateToken(AccountContext context, Long tokenValidity) {
         String token = null;
