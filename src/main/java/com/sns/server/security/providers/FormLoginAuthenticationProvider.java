@@ -1,22 +1,36 @@
 package com.sns.server.security.providers;
 
-import com.sns.server.login.LoginService;
+import com.sns.server.account.Account;
+import com.sns.server.account.AccountService;
+import com.sns.server.exceptions.account.AccountNotAuthorizedException;
+import com.sns.server.exceptions.account.AccountNotFoundException;
+import com.sns.server.security.SecurityAccount;
 import com.sns.server.security.tokens.PreAuthorizationToken;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class FormLoginAuthenticationProvider implements AuthenticationProvider {
 
-    private final LoginService loginService;
-//    FormLoginAuthenticationProvider(@Lazy AccountService accountService, @Lazy PasswordEncoder passwordEncoder) {
-//        this.accountService = accountService;
-//        this.passwordEncoder = passwordEncoder;
-//    }
+    private final AccountService accountService;
+    private final PasswordEncoder passwordEncoder;
+
+    FormLoginAuthenticationProvider(@Lazy AccountService accountService, @Lazy PasswordEncoder passwordEncoder) {
+        this.accountService = accountService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+
+    private boolean isCorrectPassword(String password, Account account) {
+        return passwordEncoder.matches(password, account.getPassword());
+    }
 
     /**
      * @param authentication
@@ -26,22 +40,23 @@ public class FormLoginAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        return loginService.authenticate(authentication);
-//        PreAuthorizationToken token = (PreAuthorizationToken) authentication;
-//
-//        String username = token.getUsername();
-//        String password = token.getUserPassword();
-//
-//        Account account = accountService.findByEmail(username);
-//        if (account == null) {
-//            throw new AccountNotFoundException();
-//        }
-//
-//        if (isCorrectPassword(password, account)) {
-//            return PostAuthorizationToken.getTokenFromAccountContext(AccountContext.fromAccountModel(account));
-//        }
-//
-//        throw new AccountNotAuthorizedException();
+        PreAuthorizationToken token = (PreAuthorizationToken) authentication;
+
+        String username = token.getUsername();
+        String password = token.getUserPassword();
+
+        Account account = accountService.findByEmail(username);
+        if (account == null) {
+            throw new AccountNotFoundException();
+        }
+
+        if (!isCorrectPassword(password, account)) {
+            throw new AccountNotAuthorizedException();
+        }
+
+        SecurityAccount securityAccount = new SecurityAccount(account);
+        return new UsernamePasswordAuthenticationToken(securityAccount, securityAccount.getPassword(), securityAccount.getAuthorities());
+
     }
 
     /**
@@ -52,7 +67,7 @@ public class FormLoginAuthenticationProvider implements AuthenticationProvider {
      */
     @Override
     public boolean supports(Class<?> authentication) {
-        return PreAuthorizationToken.class.isAssignableFrom(authentication);
+        return SecurityAccount.class.isAssignableFrom(authentication);
     }
 
 

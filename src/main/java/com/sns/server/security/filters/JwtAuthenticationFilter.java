@@ -1,6 +1,5 @@
 package com.sns.server.security.filters;
 
-import com.sns.server.security.HeaderTokenExtractor;
 import com.sns.server.security.handlers.JwtAuthenticationFailureHandler;
 import com.sns.server.security.tokens.JwtPreProcessingToken;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,24 +20,15 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     private JwtAuthenticationFailureHandler failureHandler;
-    private HeaderTokenExtractor extractor;
 
-    protected JwtAuthenticationFilter(RequestMatcher matcher) {
-        super(matcher);
-    }
-
-    public JwtAuthenticationFilter(RequestMatcher matcher, JwtAuthenticationFailureHandler failureHandler, HeaderTokenExtractor extractor) {
-        super(matcher);
-        this.failureHandler = failureHandler;
-        this.extractor = extractor;
+    protected JwtAuthenticationFilter(String defaultFilterProcessesUrl) {
+        super(defaultFilterProcessesUrl);
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
 
-        String tokenPayload = req.getHeader("Authorization");
-
-        JwtPreProcessingToken token = new JwtPreProcessingToken(this.extractor.extract(tokenPayload));
+        JwtPreProcessingToken token = null;
         return super.getAuthenticationManager().authenticate(token);
     }
 

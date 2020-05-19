@@ -35,7 +35,7 @@ public class AccountService {
                 .gender(accountDto.getGender())
                 .birth(accountDto.getBirth())
                 .tel(accountDto.getTel())
-                .userRole(UserRole.USER)
+                .userRole(UserRole.ROLE_USER)
                 .socialProvider(null)
                 .socialId(null)
                 .profileHref(null)

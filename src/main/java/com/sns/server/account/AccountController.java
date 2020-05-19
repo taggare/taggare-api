@@ -53,8 +53,13 @@ public class AccountController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    /**
+     * 이미 인증이 완료되었기때문에 뒤에 get parameter가 아닌 Authentication 객체를 가져온
+     * @param id
+     * @return
+     */
     @CrossOrigin
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/me")
     @ApiOperation(value = "회원정보 요청")
     @ApiResponses({@io.swagger.annotations.ApiResponse(code = 400, message = "클라이언트에서 잘못된 요청함."),
             @io.swagger.annotations.ApiResponse(code = 401, message = "비인증된 클라이언트에서 요청함."),

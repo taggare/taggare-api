@@ -1,7 +1,6 @@
 package com.sns.server.security.providers;
 
 import com.sns.server.security.AccountContext;
-import com.sns.server.security.JwtDecoder;
 import com.sns.server.security.tokens.JwtPreProcessingToken;
 import com.sns.server.security.tokens.PostAuthorizationToken;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +13,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
-    private final JwtDecoder jwtDecoder;
+    // private final JwtDecoder jwtDecoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        String token = (String) authentication.getPrincipal();
-        AccountContext context = jwtDecoder.decodeJwt(token);
+        // String token = (String) authentication.getPrincipal();
+        // AccountContext context = jwtDecoder.decodeJwt(token);
 
+        AccountContext context = null;
         return PostAuthorizationToken.getTokenFromAccountContext(context);
     }
 

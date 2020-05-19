@@ -51,7 +51,7 @@ public class SocialLoginAuthenticationProvider implements AuthenticationProvider
                     .gender(Gender.UNDEFINED)
                     .birth(null)
                     .tel(null)
-                    .userRole(UserRole.USER)
+                    .userRole(UserRole.ROLE_USER)
                     .socialProvider(socialProvider)
                     .socialId(Long.valueOf(socialUserProperty.getUserId()))
                     .profileHref(socialUserProperty.getProfileHref())

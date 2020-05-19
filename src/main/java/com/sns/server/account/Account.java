@@ -3,7 +3,6 @@ package com.sns.server.account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sns.server.enums.Gender;
 import com.sns.server.enums.UserRole;
-import com.sns.server.token.Token;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +13,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Table(name = "account")
@@ -23,7 +22,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Account {
+public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -64,8 +63,8 @@ public class Account {
     @Column(name = "profile_href")
     private String profileHref;
 
-    @OneToMany(mappedBy = "account")
-    private Set<Token> token;
+//    @OneToMany(mappedBy = "account")
+//    private Set<Token> token;
 
     @CreationTimestamp
     @Column(updatable = false)

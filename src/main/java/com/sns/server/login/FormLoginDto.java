@@ -1,10 +1,13 @@
 package com.sns.server.login;
 
+import com.sns.server.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -19,4 +22,7 @@ public class FormLoginDto {
 
     @NotBlank(message = "패스워드를 정확히 입력해주세요.")
     private String password;
+
+    @Enumerated(value = EnumType.STRING)
+    private UserRole userRole;
 }
