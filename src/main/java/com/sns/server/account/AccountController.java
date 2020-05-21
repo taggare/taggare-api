@@ -1,7 +1,7 @@
 package com.sns.server.account;
 
 import com.sns.server.common.ApiResponse;
-import com.sns.server.security.tokens.PostAuthorizationToken;
+import com.sns.server.security.SecurityAccount;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -60,17 +60,23 @@ public class AccountController {
      */
     @CrossOrigin
     @GetMapping("/users/me")
+    @Secured("USER_ROLE")
     @ApiOperation(value = "회원정보 요청")
     @ApiResponses({@io.swagger.annotations.ApiResponse(code = 400, message = "클라이언트에서 잘못된 요청함."),
             @io.swagger.annotations.ApiResponse(code = 401, message = "비인증된 클라이언트에서 요청함."),
             @io.swagger.annotations.ApiResponse(code = 403, message = "요청한 클라이언트는 서버에 접근할 권한이 없음."),
             @io.swagger.annotations.ApiResponse(code = 404, message = "클라이언트에서 요청했으나 찾으려는 사용가 존재하지 않음.")})
-    public ResponseEntity get(@PathVariable Long id) {
-        ApiResponse response = ApiResponse.builder()
-                .data(AccountDto.Read.from(accountService.get(id)))
-                .status(HttpStatus.OK)
-                .build();
-        return ResponseEntity.status(response.getStatus()).body(response);
+    public ResponseEntity get(Authentication authentication) {
+        SecurityAccount securityAccount = (SecurityAccount) authentication;
+        // TODO: get 파라미터 Authentication auth 받아서 유저정보를 클라이언트에 넘겨주자!
+        System.out.println("securityAccount:" + securityAccount);
+
+//        ApiResponse response = ApiResponse.builder()
+//                .data(AccountDto.Read.from(accountService.get(id)))
+//                .status(HttpStatus.OK)
+//                .build();
+        // return ResponseEntity.status(response.getStatus()).body(response);
+        return null;
     }
 
     @CrossOrigin
@@ -118,15 +124,15 @@ public class AccountController {
 //        return ResponseEntity.status(response.getStatus()).body(response);
 //    }
   
-    @CrossOrigin
-    @GetMapping("/users/hello")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity getHello(Authentication authentication) {
-        PostAuthorizationToken authorizationToken = (PostAuthorizationToken) authentication;
-        ApiResponse response = ApiResponse.builder()
-                .data(authorizationToken.getAccountContext().getUsername())
-                .status(HttpStatus.OK)
-                .build();
-        return ResponseEntity.status(response.getStatus()).body(response);
-    }
+//    @CrossOrigin
+//    @GetMapping("/users/hello")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity getHello(Authentication authentication) {
+//        PostAuthorizationToken authorizationToken = (PostAuthorizationToken) authentication;
+//        ApiResponse response = ApiResponse.builder()
+//                .data(authorizationToken.getAccountContext().getUsername())
+//                .status(HttpStatus.OK)
+//                .build();
+//        return ResponseEntity.status(response.getStatus()).body(response);
+//    }
 }

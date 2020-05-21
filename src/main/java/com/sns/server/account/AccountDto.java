@@ -42,8 +42,6 @@ public class AccountDto {
         @Enumerated(value = EnumType.STRING)
         private UserRole userRole;
 
-        @Enumerated(value = EnumType.STRING)
-        private SocialProviders socialProvider;
 
         private Long socialId;
 
@@ -60,7 +58,6 @@ public class AccountDto {
                     .birth(this.birth)
                     .tel(this.tel)
                     .userRole(this.userRole)
-                    .socialProvider(this.socialProvider)
                     .socialId(this.socialId)
                     .profileHref(this.profileHref)
                     .build();

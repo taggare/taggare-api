@@ -2,7 +2,6 @@ package com.sns.server.security;
 
 import com.sns.server.account.Account;
 import com.sns.server.enums.UserRole;
-import com.sns.server.security.tokens.JwtPostProcessingToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,10 +26,6 @@ public class AccountContext extends User {
 
     public static AccountContext fromAccountModel(Account account) {
         return new AccountContext(account, account.getEmail(), account.getPassword(), parseAuthorities(account.getUserRole()));
-    }
-
-    public static AccountContext fromJwtPostToken(JwtPostProcessingToken token) {
-        return new AccountContext(null, token.getUserEmail(), token.getPassword(), token.getAuthorities());
     }
 
     private static List<SimpleGrantedAuthority> parseAuthorities(UserRole role) {

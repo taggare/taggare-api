@@ -53,9 +53,9 @@ public class Account implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
-    @Column(name = "social_provider")
-    @Enumerated(value = EnumType.STRING)
-    private SocialProviders socialProvider;
+//    @Column(name = "social_provider")
+//    @Enumerated(value = EnumType.STRING)
+//    private SocialProviders socialProvider;
 
     @Column(name = "social_id")
     private Long socialId;
@@ -78,7 +78,7 @@ public class Account implements Serializable {
     @Builder
     public Account(String email, String firstName, String lastName,
                    String password, Gender gender, String birth, String tel,
-                   UserRole userRole, SocialProviders socialProvider, Long socialId, String profileHref,
+                   UserRole userRole, Long socialId, String profileHref,
                    LocalDateTime deleted) {
         this.email = email;
         this.firstName = firstName;
@@ -88,7 +88,6 @@ public class Account implements Serializable {
         this.birth = birth;
         this.tel = tel;
         this.userRole = userRole;
-        this.socialProvider = socialProvider;
         this.socialId = socialId;
         this.profileHref = profileHref;
         this.deleted = deleted;

@@ -9,5 +9,5 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 
     Account findBySocialId(Long socialId);
 
-    Account findBySocialIdAndSocialProvider(Long socialId, SocialProviders socialProvider);
+    // Account findBySocialIdAndSocialProvider(Long socialId, SocialProviders socialProvider);
 }

@@ -41,13 +41,14 @@ dependencies {
     compile(group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}")
     compile(group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}")
     compile('org.springframework.boot:spring-boot-starter-security')
-    compile('org.springframework.security.oauth:spring-security-oauth2:2.1.1.RELEASE')
+    compile('org.springframework.security.oauth:spring-security-oauth2:2.3.4.RELEASE')
+    compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.9.RELEASE'
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     // https://mvnrepository.com/artifact/com.auth0/java-jwt
-    compile group: 'com.auth0', name: 'java-jwt', version: "${jwtVersion}"
+//    compile group: 'com.auth0', name: 'java-jwt', version: "${jwtVersion}"
 
 
     runtimeOnly group: 'com.h2database', name: 'h2', version: '1.4.196'

@@ -36,7 +36,6 @@ public class AccountService {
                 .birth(accountDto.getBirth())
                 .tel(accountDto.getTel())
                 .userRole(UserRole.ROLE_USER)
-                .socialProvider(null)
                 .socialId(null)
                 .profileHref(null)
                 .build()

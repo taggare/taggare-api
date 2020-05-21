@@ -5,7 +5,6 @@ import com.sns.server.account.AccountService;
 import com.sns.server.exceptions.account.AccountNotAuthorizedException;
 import com.sns.server.exceptions.account.AccountNotFoundException;
 import com.sns.server.security.SecurityAccount;
-import com.sns.server.security.tokens.PreAuthorizationToken;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,9 +24,6 @@ public class FormLoginAuthenticationProvider implements AuthenticationProvider {
         this.passwordEncoder = passwordEncoder;
     }
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     private boolean isCorrectPassword(String password, Account account) {
         return passwordEncoder.matches(password, account.getPassword());
     }
@@ -39,11 +35,8 @@ public class FormLoginAuthenticationProvider implements AuthenticationProvider {
      */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
-        PreAuthorizationToken token = (PreAuthorizationToken) authentication;
-
-        String username = token.getUsername();
-        String password = token.getUserPassword();
+        String username = String.valueOf(authentication.getPrincipal());
+        String password = String.valueOf(authentication.getCredentials());
 
         Account account = accountService.findByEmail(username);
         if (account == null) {
