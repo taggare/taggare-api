@@ -1,7 +1,8 @@
 package com.sns.server.account;
 
 import com.sns.server.common.ApiResponse;
-import com.sns.server.security.SecurityAccount;
+import com.sns.server.security.AccountContext;
+import com.sns.server.security.AccountContextService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class AccountController {
 
     private final AccountService accountService;
     private final AccountDtoValidator accountDtoValidator;
+    private final AccountContextService accountContextService;
 
     public ResponseEntity<?> sendErrorResponse(Errors errors) {
         return ResponseEntity.badRequest().body(ApiResponse.builder()
@@ -53,11 +55,6 @@ public class AccountController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-    /**
-     * 이미 인증이 완료되었기때문에 뒤에 get parameter가 아닌 Authentication 객체를 가져온
-     * @param id
-     * @return
-     */
     @CrossOrigin
     @GetMapping("/users/me")
     @Secured("USER_ROLE")
@@ -67,16 +64,14 @@ public class AccountController {
             @io.swagger.annotations.ApiResponse(code = 403, message = "요청한 클라이언트는 서버에 접근할 권한이 없음."),
             @io.swagger.annotations.ApiResponse(code = 404, message = "클라이언트에서 요청했으나 찾으려는 사용가 존재하지 않음.")})
     public ResponseEntity get(Authentication authentication) {
-        SecurityAccount securityAccount = (SecurityAccount) authentication;
-        // TODO: get 파라미터 Authentication auth 받아서 유저정보를 클라이언트에 넘겨주자!
-        System.out.println("securityAccount:" + securityAccount);
+        AccountContext accountContext = (AccountContext) accountContextService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
+        log.info("ACCOUNT:" + accountContext.getAccount());
 
-//        ApiResponse response = ApiResponse.builder()
-//                .data(AccountDto.Read.from(accountService.get(id)))
-//                .status(HttpStatus.OK)
-//                .build();
-        // return ResponseEntity.status(response.getStatus()).body(response);
-        return null;
+        ApiResponse response = ApiResponse.builder()
+                .data(AccountDto.Read.from(accountContext.getAccount()))
+                .status(HttpStatus.OK)
+                .build();
+          return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @CrossOrigin
