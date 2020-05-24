@@ -56,7 +56,7 @@ public class AccountController {
     }
 
     @GetMapping("/users/me")
-    @Secured("USER_ROLE")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @CrossOrigin
     @ApiOperation(value = "회원정보 요청")
     @ApiResponses({@io.swagger.annotations.ApiResponse(code = 400, message = "클라이언트에서 잘못된 요청함."),
@@ -65,6 +65,7 @@ public class AccountController {
             @io.swagger.annotations.ApiResponse(code = 404, message = "클라이언트에서 요청했으나 찾으려는 사용가 존재하지 않음.")})
     public ResponseEntity get(Authentication authentication) {
         AccountContext accountContext = (AccountContext) accountContextService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
+        log.info("ROLE:" + authentication.getAuthorities());
         log.info("ACCOUNT:" + accountContext.getAccount());
 
         ApiResponse response = ApiResponse.builder()
@@ -75,6 +76,7 @@ public class AccountController {
     }
 
     @PutMapping("/users/update")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @CrossOrigin
     @ApiOperation(value = "회원정보 수정")
     public ResponseEntity<?> update(Authentication authentication,
@@ -96,11 +98,13 @@ public class AccountController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users/delete")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @CrossOrigin
     @ApiOperation(value = "회원탈퇴")
-    public ResponseEntity delete(@PathVariable Long id) {
-        accountService.delete(id);
+    public ResponseEntity delete(Authentication authentication) {
+        AccountContext accountContext = (AccountContext) accountContextService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
+        accountService.delete(accountContext.getAccount().getId());
         ApiResponse response = ApiResponse.builder()
                 .message("회원탈퇴가 완료되었습니다.")
                 .status(HttpStatus.OK)
@@ -108,28 +112,4 @@ public class AccountController {
 
         return ResponseEntity.status(response.getStatus()).body(response);
     }
-
-//    @CrossOrigin
-//    @GetMapping("/users/hello")
-//    @PreAuthorize("hasRole('ROLE_USER')")
-//    public ResponseEntity getHello(Authentication authentication) {
-//        PostAuthorizationToken authorizationToken = (PostAuthorizationToken) authentication;
-//        ApiResponse response = ApiResponse.builder()
-//                .data(authorizationToken.getAccountContext().getUsername())
-//                .status(HttpStatus.OK)
-//                .build();
-//        return ResponseEntity.status(response.getStatus()).body(response);
-//    }
-
-//    @CrossOrigin
-//    @GetMapping("/users/hello")
-//    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity getHello(Authentication authentication) {
-//        PostAuthorizationToken authorizationToken = (PostAuthorizationToken) authentication;
-//        ApiResponse response = ApiResponse.builder()
-//                .data(authorizationToken.getAccountContext().getUsername())
-//                .status(HttpStatus.OK)
-//                .build();
-//        return ResponseEntity.status(response.getStatus()).body(response);
-//    }
 }
