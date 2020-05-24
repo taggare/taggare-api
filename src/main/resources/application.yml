@@ -2,11 +2,6 @@ spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
 
-
-jwt:
-  signKey: ${JWT_SIGN_KEY}
-  issuer: taggre
-
 ---
 spring:
   profiles: local
@@ -28,7 +23,7 @@ spring:
 #      path: /h2
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: true
 logging:
   level:
@@ -47,9 +42,9 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+    show-sql: true
 
 logging:
   level:
