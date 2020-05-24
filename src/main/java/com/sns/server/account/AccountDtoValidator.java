@@ -12,7 +12,7 @@ public class AccountDtoValidator {
     public void validate(BindingResult bindingResult, Errors errors) {
         List<FieldError> errorFields = bindingResult.getFieldErrors();
         for (FieldError error : errorFields) {
-            errors.rejectValue(error.getField(), error.getRejectedValue().toString(), error.getDefaultMessage());
+            errors.rejectValue(error.getField(), String.valueOf(error.getRejectedValue()), error.getDefaultMessage());
         }
     }
 }
