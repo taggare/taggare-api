@@ -97,9 +97,6 @@ public class AccountDto {
     @AllArgsConstructor
     public static class Update {
 
-        @NotBlank(message = "이메일을 정확히 입력해주세요.")
-        private String email;
-
         @NotBlank(message = "영문 이름을 정확히 입력해주세요.")
         private String firstName;
 
