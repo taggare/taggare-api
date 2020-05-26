@@ -8,6 +8,4 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     Account findByEmail(String email);
 
     Account findBySocialId(Long socialId);
-
-    // Account findBySocialIdAndSocialProvider(Long socialId, SocialProviders socialProvider);
 }
