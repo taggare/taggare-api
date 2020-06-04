@@ -50,4 +50,5 @@ logging:
   level:
     com:
       sns:
-        server: info
+        server: debug
+    org.springframework.security: debug
