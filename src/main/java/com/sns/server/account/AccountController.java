@@ -57,7 +57,6 @@ public class AccountController {
 
     @GetMapping("/users/me")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @CrossOrigin
     @ApiOperation(value = "회원정보 요청")
     @ApiResponses({@io.swagger.annotations.ApiResponse(code = 400, message = "클라이언트에서 잘못된 요청함."),
             @io.swagger.annotations.ApiResponse(code = 401, message = "비인증된 클라이언트에서 요청함."),
