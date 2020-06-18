@@ -29,7 +29,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .csrf().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users", "/oauth/token")
+                .antMatchers(HttpMethod.POST, "/users")
                 .permitAll()
                 .expressionHandler(webExpressionHandler())
                 .anyRequest()

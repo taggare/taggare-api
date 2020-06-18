@@ -3,6 +3,7 @@ package com.sns.server.account;
 import com.sns.server.common.ApiResponse;
 import com.sns.server.security.AccountContext;
 import com.sns.server.security.AccountContextService;
+import com.sns.server.security.SecurityAccount;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -56,19 +57,18 @@ public class AccountController {
     }
 
     @GetMapping("/users/me")
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    // @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @ApiOperation(value = "회원정보 요청")
     @ApiResponses({@io.swagger.annotations.ApiResponse(code = 400, message = "클라이언트에서 잘못된 요청함."),
             @io.swagger.annotations.ApiResponse(code = 401, message = "비인증된 클라이언트에서 요청함."),
             @io.swagger.annotations.ApiResponse(code = 403, message = "요청한 클라이언트는 서버에 접근할 권한이 없음."),
             @io.swagger.annotations.ApiResponse(code = 404, message = "클라이언트에서 요청했으나 찾으려는 사용가 존재하지 않음.")})
-    public ResponseEntity get(Authentication authentication) {
-        AccountContext accountContext = (AccountContext) accountContextService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
-        log.info("ROLE:" + authentication.getAuthorities());
-        log.info("ACCOUNT:" + accountContext.getAccount());
+    public ResponseEntity get(SecurityAccount securityAccount) {
+
+        System.out.println("User Id = " + securityAccount.getUserId());
 
         ApiResponse response = ApiResponse.builder()
-                .data(AccountDto.Read.from(accountContext.getAccount()))
+                .data(AccountDto.Read.from(accountService.get(securityAccount.getUserId())))
                 .status(HttpStatus.OK)
                 .build();
         return ResponseEntity.status(response.getStatus()).body(response);
@@ -86,15 +86,16 @@ public class AccountController {
             return sendErrorResponse(errors);
         }
 
-        AccountContext accountContext = (AccountContext) accountContextService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
-
-        accountService.update(accountContext.getAccount().getId(), accountDto);
-        ApiResponse response = ApiResponse.builder()
-                .message("회원정보 수정이 완료되었습니다.")
-                .status(HttpStatus.OK)
-                .build();
-
-        return ResponseEntity.status(response.getStatus()).body(response);
+//        AccountContext accountContext = (AccountContext) accountContextService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
+//
+//        accountService.update(accountContext.getAccount().getId(), accountDto);
+//        ApiResponse response = ApiResponse.builder()
+//                .message("회원정보 수정이 완료되었습니다.")
+//                .status(HttpStatus.OK)
+//                .build();
+//
+//        return ResponseEntity.status(response.getStatus()).body(response);
+        return null;
     }
 
     @DeleteMapping("/users/delete")
@@ -102,13 +103,14 @@ public class AccountController {
     @CrossOrigin
     @ApiOperation(value = "회원탈퇴")
     public ResponseEntity delete(Authentication authentication) {
-        AccountContext accountContext = (AccountContext) accountContextService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
-        accountService.delete(accountContext.getAccount().getId());
-        ApiResponse response = ApiResponse.builder()
-                .message("회원탈퇴가 완료되었습니다.")
-                .status(HttpStatus.OK)
-                .build();
-
-        return ResponseEntity.status(response.getStatus()).body(response);
+//        AccountContext accountContext = (AccountContext) accountContextService.loadUserByUsername(String.valueOf(authentication.getPrincipal()));
+//        accountService.delete(accountContext.getAccount().getId());
+//        ApiResponse response = ApiResponse.builder()
+//                .message("회원탈퇴가 완료되었습니다.")
+//                .status(HttpStatus.OK)
+//                .build();
+//
+//        return ResponseEntity.status(response.getStatus()).body(response);
+        return null;
     }
 }

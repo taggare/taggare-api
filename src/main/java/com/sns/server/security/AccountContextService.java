@@ -15,15 +15,11 @@ public class AccountContextService implements UserDetailsService {
     private final AccountRepository accountRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public SecurityAccount loadUserByUsername(String email) throws UsernameNotFoundException {
         Account account = accountRepository.findByEmail(email);
         if(account == null) {
             throw new UsernameNotFoundException("존재하지 않는 사용자입니다.");
         }
-        return getAccountContext(account);
-    }
-
-    private AccountContext getAccountContext(Account account) {
-        return AccountContext.fromAccountModel(account);
+        return new SecurityAccount(account);
     }
 }

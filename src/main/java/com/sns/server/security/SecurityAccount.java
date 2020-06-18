@@ -5,11 +5,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SecurityAccount implements UserDetails {
+public class SecurityAccount implements UserDetails, Serializable {
 
     private Account account;
 
@@ -21,6 +22,10 @@ public class SecurityAccount implements UserDetails {
         List<GrantedAuthority> auths = new ArrayList<>();
         auths.add(new SimpleGrantedAuthority(account.getUserRole().getRoleName()));
         return auths;
+    }
+
+    public Long getUserId() {
+        return account.getId();
     }
 
     @Override

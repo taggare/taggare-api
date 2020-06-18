@@ -13,55 +13,54 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Component
-public class FormLoginAuthenticationProvider implements AuthenticationProvider {
+public class FormLoginAuthenticationProvider {
 
-    private final AccountService accountService;
-    private final PasswordEncoder passwordEncoder;
-
-    FormLoginAuthenticationProvider(@Lazy AccountService accountService, @Lazy PasswordEncoder passwordEncoder) {
-        this.accountService = accountService;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    private boolean isCorrectPassword(String password, Account account) {
-        return passwordEncoder.matches(password, account.getPassword());
-    }
-
-    /**
-     * @param authentication
-     * @return
-     * @throws AuthenticationException
-     */
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String username = String.valueOf(authentication.getPrincipal());
-        String password = String.valueOf(authentication.getCredentials());
-
-        Account account = accountService.findByEmail(username);
-        if (account == null) {
-            throw new AccountNotFoundException();
-        }
-
-        if (!isCorrectPassword(password, account)) {
-            throw new AccountNotAuthorizedException();
-        }
-
-        SecurityAccount securityAccount = new SecurityAccount(account);
-        return new UsernamePasswordAuthenticationToken(securityAccount, securityAccount.getPassword(), securityAccount.getAuthorities());
-
-    }
-
-    /**
-     * 사용자 인증전에 provider가 어떤 클래스를 통해 검증할 지 체크한다.
-     *
-     * @param authentication
-     * @return
-     */
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return SecurityAccount.class.isAssignableFrom(authentication);
-    }
+//    private final AccountService accountService;
+//    private final PasswordEncoder passwordEncoder;
+//
+//    FormLoginAuthenticationProvider(@Lazy AccountService accountService, @Lazy PasswordEncoder passwordEncoder) {
+//        this.accountService = accountService;
+//        this.passwordEncoder = passwordEncoder;
+//    }
+//
+//    private boolean isCorrectPassword(String password, Account account) {
+//        return passwordEncoder.matches(password, account.getPassword());
+//    }
+//
+//    /**
+//     * 사용자 인증전에 provider가 어떤 클래스를 통해 검증할 지 체크한다.
+//     *
+//     * @param authentication
+//     * @return
+//     */
+//    @Override
+//    public boolean supports(Class<?> authentication) {
+//        return SecurityAccount.class.isAssignableFrom(authentication);
+//    }
+//
+//    /**
+//     * @param authentication
+//     * @return
+//     * @throws AuthenticationException
+//     */
+//    @Override
+//    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+//        String username = String.valueOf(authentication.getPrincipal());
+//        String password = String.valueOf(authentication.getCredentials());
+//
+//        Account account = accountService.findByEmail(username);
+//        if (account == null) {
+//            throw new AccountNotFoundException();
+//        }
+//
+//        if (!isCorrectPassword(password, account)) {
+//            throw new AccountNotAuthorizedException();
+//        }
+//
+//        SecurityAccount securityAccount = new SecurityAccount(account);
+//        return new UsernamePasswordAuthenticationToken(securityAccount, securityAccount.getPassword(), securityAccount.getAuthorities());
+//
+//    }
 
 
 }
