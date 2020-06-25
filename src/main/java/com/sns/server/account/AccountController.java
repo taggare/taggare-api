@@ -1,7 +1,6 @@
 package com.sns.server.account;
 
 import com.sns.server.common.ApiResponse;
-import com.sns.server.security.AccountContext;
 import com.sns.server.security.AccountContextService;
 import com.sns.server.security.SecurityAccount;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +63,7 @@ public class AccountController {
             @io.swagger.annotations.ApiResponse(code = 401, message = "비인증된 클라이언트에서 요청함."),
             @io.swagger.annotations.ApiResponse(code = 403, message = "요청한 클라이언트는 서버에 접근할 권한이 없음."),
             @io.swagger.annotations.ApiResponse(code = 404, message = "클라이언트에서 요청했으나 찾으려는 사용가 존재하지 않음.")})
-    public ResponseEntity get(SecurityAccount securityAccount) {
+    public ResponseEntity get(@AuthenticationPrincipal SecurityAccount securityAccount) {
 
         System.out.println("User Id = " + securityAccount.getUserId());
 
