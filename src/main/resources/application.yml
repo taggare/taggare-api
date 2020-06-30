@@ -2,9 +2,6 @@ spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
 cloudinary:
-  name: ${CLOUDINARY_NAME}
-  key: ${CLOUDINARY_KEY}
-  secret: ${CLOUDINARY_SECRET}
   env: ${CLOUDINARY_ENV}
 ---
 # local
