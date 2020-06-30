@@ -19,15 +19,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccountContextService accountContextService;
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        // swagger 리소스 시큐리티 필터 제거
-//        web.ignoring().antMatchers(
-//                "/", "/h2/**",
-//                "/v2/api-docs", "/swagger-resources/**",
-//                "/swagger-ui.html", "/webjars/**", "/swagger/**"
-//        );
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        // swagger 리소스 시큐리티 필터 제거
+        web.ignoring().antMatchers(
+                "/", "/h2/**",
+                "/v2/api-docs", "/swagger-resources/**",
+                "/swagger-ui.html", "/webjars/**", "/swagger/**"
+        );
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
