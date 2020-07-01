@@ -30,11 +30,8 @@ public class PostController {
     @CrossOrigin
     @ApiOperation(value = "파일업로드")
     public ResponseEntity upload(@RequestParam("file") List<MultipartFile> multipartFiles) throws Exception {
-
-        log.info("업로드 시작");
-        imageUploader.upload(multipartFiles);
-
         ApiResponse response = ApiResponse.builder()
+                .list(imageUploader.upload(multipartFiles))
                 .message("이미지 업로드 완료.")
                 .status(HttpStatus.OK)
                 .build();
