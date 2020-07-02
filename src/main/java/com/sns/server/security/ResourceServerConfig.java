@@ -32,6 +32,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/**")
                 // .antMatchers(HttpMethod.POST, "/users")
                 .permitAll()
+                .antMatchers("/", "/h2/**",
+                        "/v2/api-docs", "/swagger-resources/**",
+                        "/swagger-ui.html", "/webjars/**", "/swagger/**")
+                .permitAll()
                 .expressionHandler(webExpressionHandler())
                 .anyRequest()
                 .authenticated();
