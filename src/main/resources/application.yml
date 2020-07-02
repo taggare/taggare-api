@@ -27,7 +27,7 @@ logging:
     org.springframework.security: debug
 
 cloudinary:
-  env: ${CLOUDINARY_ENV}
+  env: ${DB_HOSTNAME}
 ---
 # prod
 spring:
@@ -50,4 +50,4 @@ logging:
     org.springframework.security: debug
 
 cloudinary:
-  env: ${CLOUDINARY_ENV}
+  env: ${DB_HOSTNAME}
