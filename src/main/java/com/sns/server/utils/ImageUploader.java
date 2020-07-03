@@ -9,31 +9,35 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class ImageUploader {
     private static final Logger log = LoggerFactory.getLogger(ImageUploader.class);
 
-    @Value("${cloudinary.env}")
-    private String cloudinaryUrl;
+    @Value("${cloudinary.key}")
+    private String cloudinaryKey;
 
-    public List<Map> upload(List<MultipartFile> multipartFiles) throws Exception {
-        Cloudinary cloudinary = new Cloudinary(cloudinaryUrl);
+    private Cloudinary cloudinary;
 
-        List<Map> files = new ArrayList<>();
-        for(MultipartFile file : multipartFiles) {
-            files.add(cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()));
-            log.info("URL: " + files);
-        }
-
-        if(!files.isEmpty()) {
-            return files;
-        }
-
-        throw new FileUploadException();
+    @PostConstruct
+    public void init() {
+        cloudinary = new Cloudinary(cloudinaryKey);
     }
 
+    public String upload(MultipartFile file) {
+        return convertImageUrl(file);
+    }
+
+    private String convertImageUrl(MultipartFile file) {
+        try {
+            return Optional.ofNullable(cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url"))
+                    .orElseThrow(FileUploadException::new)
+                    .toString();
+        } catch (IOException e) {
+            throw new FileUploadException();
+        }
+    }
 }

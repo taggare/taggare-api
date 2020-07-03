@@ -6,6 +6,8 @@ spring:
 #      file-size-threshold: 1MB
 #      max-file-size: 10MB
 #      max-request-size: 10MB
+cloudinary:
+  key: ${CLOUDINARY_KEY}
 ---
 # local
 spring:
@@ -25,9 +27,6 @@ logging:
       sns:
         server: debug
     org.springframework.security: debug
-
-cloudinary:
-  env: ${CLOUDINARY_KEY}
 ---
 # prod
 spring:
@@ -48,6 +47,3 @@ logging:
       sns:
         server: debug
     org.springframework.security: debug
-
-cloudinary:
-  env: ${CLOUDINARY_KEY}
