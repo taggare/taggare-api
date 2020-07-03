@@ -42,7 +42,6 @@ public class AccountDto {
         @Enumerated(value = EnumType.STRING)
         private UserRole userRole;
 
-
         private Long socialId;
 
         private String profileHref;
