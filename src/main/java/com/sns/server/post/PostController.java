@@ -27,8 +27,8 @@ public class PostController {
     @Secured("ROLE_USER")
     @CrossOrigin
     @ApiOperation(value = "글 작성")
-    public ResponseEntity create(@ApiIgnore @AuthenticationPrincipal SecurityAccount securityAccount,
-                                 @RequestBody PostDto.Create postDto) {
+    public ResponseEntity<?> create(@RequestBody final PostDto.Create postDto,
+                                    @ApiIgnore @AuthenticationPrincipal SecurityAccount securityAccount) {
 
         postDto.setId(securityAccount.getUserId());
 
