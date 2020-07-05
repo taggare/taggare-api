@@ -14,8 +14,6 @@ public class AccountDto {
 
     @Getter
     @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class Create {
 
         @Email(message = "이메일 형식에 맞게 정확히 입력해주세요.")
