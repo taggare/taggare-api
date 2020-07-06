@@ -19,6 +19,8 @@ import java.util.Set;
 @Table(name = "post")
 @Where(clause = "deleted IS NULL")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Post {
     @Id

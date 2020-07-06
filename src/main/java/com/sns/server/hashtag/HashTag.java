@@ -14,7 +14,9 @@ import java.util.Set;
 @Entity
 @Table(name = "hash_tags")
 @Where(clause = "deleted IS NULL")
-@Data
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class HashTag {
     @Id
