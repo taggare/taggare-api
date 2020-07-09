@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -44,7 +43,6 @@ public class Post {
     @JoinTable(name = "post_hashtags",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
-    @JsonManagedReference
     private List<HashTag> hashTags;
 
     @OneToMany(mappedBy = "post")

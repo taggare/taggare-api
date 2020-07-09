@@ -1,9 +1,11 @@
 package com.sns.server.hashtag;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sns.server.post.Post;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,7 +27,6 @@ public class HashTag {
     private Long id;
 
     @ManyToMany(mappedBy = "hashTags")
-    @JsonBackReference
     private Set<Post> post;
 
     private String tag;

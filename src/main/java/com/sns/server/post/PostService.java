@@ -1,7 +1,6 @@
 package com.sns.server.post;
 
 import com.sns.server.account.AccountService;
-import com.sns.server.common.page.PageRequestDto;
 import com.sns.server.hashtag.HashTag;
 import com.sns.server.hashtag.HashTagRepository;
 import com.sns.server.image.Image;
@@ -9,6 +8,7 @@ import com.sns.server.image.ImageRepository;
 import com.sns.server.utils.ImageUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +48,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostDto.PostReadDto> get(final PageRequestDto pageRequestDto) {
-        return postRepository.findAll(pageRequestDto.of()).map(PostDto.PostReadDto::new);
+    public Page<PostDto.PostReadDto> get(final Pageable pageable) {
+        return postRepository.findAll(pageable).map(PostDto.PostReadDto::new);
     }
 }

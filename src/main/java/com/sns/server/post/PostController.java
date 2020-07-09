@@ -1,12 +1,14 @@
 package com.sns.server.post;
 
 import com.sns.server.common.ApiResponse;
-import com.sns.server.common.page.PageRequestDto;
 import com.sns.server.security.SecurityAccount;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -44,15 +46,10 @@ public class PostController {
     @Secured("ROLE_USER")
     @CrossOrigin
     @ApiOperation(value = "글 요청")
-    public ResponseEntity<?> get(// @RequestBody final PageRequestDto<PostDto.PostReadDto> postReadDto,
-                                 @RequestBody final PageRequestDto pageRequestDto,
-                                 @ApiIgnore @AuthenticationPrincipal SecurityAccount securityAccount) {
-
-        pageRequestDto.setPage(pageRequestDto.getPage());
-        pageRequestDto.setSize(pageRequestDto.getSize());
-
+    public ResponseEntity<?> get(@PageableDefault(size = 20, sort = "created", direction = Sort.Direction.DESC) Pageable pageable) {
+        // SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // SecurityAccount
         ApiResponse response = ApiResponse.builder()
-                .data(postService.get(pageRequestDto))
+                .data(postService.get(pageable))
                 .message("글 요청을 완료하였습니다.")
                 .status(HttpStatus.OK)
                 .build();
