@@ -53,10 +53,10 @@ dependencies {
     compile group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.25.0'
 
     // https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-core
-    compile group: 'org.springframework.batch', name: 'spring-batch-core', version: '4.2.4.RELEASE'
+    compile group: 'org.springframework.batch', name: 'spring-batch-core', version: '4.2.1.RELEASE'
 
     // https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-test
-    testCompile group: 'org.springframework.batch', name: 'spring-batch-test', version: '4.2.4.RELEASE'
+    testCompile group: 'org.springframework.batch', name: 'spring-batch-test', version: '4.2.1.RELEASE'
     
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
