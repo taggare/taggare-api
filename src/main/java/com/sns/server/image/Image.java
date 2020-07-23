@@ -3,6 +3,7 @@ package com.sns.server.image;
 import com.sns.server.post.Post;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "image")
 @Data
+@NoArgsConstructor
 @Builder
 public class Image {
     @Id
