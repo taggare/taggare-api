@@ -1,6 +1,5 @@
 package com.sns.server.post;
 
-import com.sns.server.image.Image;
 import com.sns.server.love.Love;
 import com.sns.server.reply.Reply;
 import lombok.Data;
@@ -34,7 +33,7 @@ public class PostDto {
         private Set<Love> loves;
         private String title;
         private String content;
-        private List<Image> images;
+        private List<String> images;
         private String created;
 
         public PostReadDto(Post post) {
@@ -44,7 +43,7 @@ public class PostDto {
             this.loves = post.getLoves();
             this.title = post.getTitle();
             this.content = post.getContent();
-            this.images = post.getImages();
+            this.images = post.getImages().stream().map(image -> image.getUrl()).collect(Collectors.toList());
             this.created = post.getCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
     }
