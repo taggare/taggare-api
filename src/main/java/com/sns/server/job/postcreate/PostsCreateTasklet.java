@@ -59,7 +59,7 @@ public class PostsCreateTasklet implements Tasklet {
         images.add("https://cdn.pixabay.com/photo/2016/01/09/18/27/old-1130731_1280.jpg");
         images.add("https://cdn.pixabay.com/photo/2015/10/30/20/13/sunrise-1014712_1280.jpg");
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             List<HashTag> postHashTags = new ArrayList<>();
 
             int hashTagSize = savedHashTags.size();
@@ -71,8 +71,8 @@ public class PostsCreateTasklet implements Tasklet {
             Post post = postRepository.save(Post.builder()
                                                 .account(accounts.get(new Random().nextInt(accounts.size())))
                                                 .hashTags(postHashTags)
-                                                .title("test")
-                                                .content("test")
+                                                .title("test" + i)
+                                                .content("test" + i)
                                                 .build());
 
             imageRepository.saveAll(images.stream().map(image -> Image.builder().url(image).post(post).build()).collect(Collectors.toList()));
