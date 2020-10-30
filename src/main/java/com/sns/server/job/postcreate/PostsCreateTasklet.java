@@ -41,8 +41,8 @@ public class PostsCreateTasklet implements Tasklet {
         stringBuilder.append(" #여행기록 #여행일기 #여행중독 #여행앓이 #travel #비행스타그램 #추억스타그램 #추억 #떠나자 #(여행지역) #놀러가자 #휴가스타그램 #trip");
 
 
-        String[] splitedTags = stringBuilder.toString().split(" ");
-        List<HashTag> hashTags = Arrays.stream(splitedTags)
+        String[] tags = stringBuilder.toString().split(" ");
+        List<HashTag> hashTags = Arrays.stream(tags)
                                        .map(tag -> HashTag.builder()
                                                           .tag(tag)
                                                           .build())
@@ -75,7 +75,9 @@ public class PostsCreateTasklet implements Tasklet {
                                                 .content("test" + i)
                                                 .build());
 
-            imageRepository.saveAll(images.stream().map(image -> Image.builder().url(image).post(post).build()).collect(Collectors.toList()));
+            imageRepository.saveAll(images.stream().map(image ->
+                    Image.builder().url(image).post(post).build())
+                                          .collect(Collectors.toList()));
         }
 
 
