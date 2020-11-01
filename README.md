@@ -13,3 +13,4 @@
 
 ### JWT token request verification
 * Post.http -> Login.http -> loggedin-request.http  
+# object-study
